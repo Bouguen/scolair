@@ -1,0 +1,1642 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Scolair — Smart Interactive LMS: one integrated platform for learning, assessment, AI assistance, administration, collaboration, transport and family communication. نظام تعلّم تفاعلي ذكي متكامل.">
+<meta name="theme-color" content="#0A1236">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon.ico" sizes="any"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:title" content="Scolair — Smart Interactive LMS"><meta property="og:description" content="One integrated LMS for the whole school · نظام تعلّم متكامل للمدرسة كلها"><meta property="og:image" content="img/og-image.png"><meta name="twitter:card" content="summary_large_image">
+<title>Scolair Smart School — Smart Interactive LMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: a quiet, deep-navy and pearl page. One idea per screen, thin hairlines, serif display type, slow motion. A single committed look, so colors are fixed rather than themed. Orange is the only accent. */
+:root {
+  --ink: #050B24; --ink-2: #0B1538; --ink-3: #101C4A;
+  --pearl: #F3F5F9; --white: #FFFFFF; --text: #0A1030; --text-2: #565F82;
+  --on-dark: #EEF1FB; --on-dark-2: #9CA7D0;
+  --line: rgba(5,11,36,.14); --line-dark: rgba(238,241,251,.18);
+  --orange: #F46F20; --blue: #3366FF; --green: #4DB749;
+  --f-display: "Instrument Serif", "Times New Roman", serif;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+#app[dir="rtl"] { --f-display: "Amiri", "Times New Roman", serif; --f-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
+body { margin: 0; background: var(--pearl); color: var(--text); font-family: var(--f-body); font-size: 16px; line-height: 1.75; overflow-x: hidden; }
+#app { font-family: var(--f-body); overflow-x: clip; max-width: 100vw; }
+.cms-off { display: none !important; }
+.hint { font-size: 13.5px; color: var(--on-dark-2); max-width: 520px; line-height: 1.6; margin-top: 4px; }
+.final .hint { text-align: center; }
+h1, h2, h3, h4, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2 { font-family: var(--f-display); font-weight: 400; line-height: 1.06; text-wrap: balance; }
+h3 { font-weight: 600; line-height: 1.3; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.wrap { max-width: 1160px; margin-inline: auto; padding-inline: 64px 20px; position: relative; }
+.bar .wrap, footer .wrap { padding-inline: 20px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+em { font-style: normal; color: var(--orange); }
+#app[dir="ltr"] em { font-style: italic; }
+.eb { display: flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--orange); }
+.eb::before { content: ""; width: 44px; height: 1px; background: currentColor; flex: none; }
+#app[dir="rtl"] .eb, #app[dir="rtl"] .nav a, #app[dir="rtl"] .lbl { letter-spacing: 0; text-transform: none; font-size: 13.5px; }
+.h2 { font-size: clamp(2.2rem, 4.8vw, 4rem); }
+.lead { font-size: 1.08rem; color: var(--text-2); max-width: 58ch; }
+.dark .lead { color: var(--on-dark-2); }
+.sec { padding-block: 130px; position: relative; }
+.dark { background: var(--ink); color: var(--on-dark); }
+.dark.alt { background: var(--ink-2); }
+.head { display: flex; flex-direction: column; gap: 22px; margin-bottom: 64px; max-width: 760px; }
+.rv { transform: translateY(22px); transition: transform 1.1s cubic-bezier(.2,.7,.2,1); }
+.rv.in { transform: none; }
+
+/* header */
+.progress { position: fixed; top: env(safe-area-inset-top, 0px); inset-inline: 0; height: 2px; z-index: 50; background: var(--orange); transform-origin: left; transform: scaleX(0); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: rgba(5,11,36,.9); backdrop-filter: blur(12px); color: var(--on-dark); border-bottom: 1px solid var(--line-dark); }
+.bar .wrap { display: flex; align-items: center; gap: 22px; padding-block: 14px; }
+.brand { display: flex; align-items: center; text-decoration: none; flex: none; }
+.brand .word { font-family: "Manrope", sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -.02em; line-height: 1; }
+.nav { display: flex; gap: 6px; margin-inline-start: auto; overflow-x: auto; min-width: 0; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a { white-space: nowrap; text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; padding: 8px 12px; color: var(--on-dark-2); transition: color .3s; }
+.nav a:hover { color: var(--on-dark); }
+.lang { display: flex; border: 1px solid var(--line-dark); border-radius: 99px; flex: none; }
+.lang button { background: none; border: 0; padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--on-dark-2); border-radius: 99px; }
+.lang button[aria-pressed="true"] { background: var(--on-dark); color: var(--ink); }
+button { background: none; color: inherit; font-family: inherit; }
+.btn { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; letter-spacing: .04em; padding: 15px 28px; border-radius: 99px; text-decoration: none; border: 1px solid transparent; transition: background .4s, color .4s, border-color .4s; }
+.btn.light { background: var(--on-dark); color: var(--ink); }
+.btn.light:hover { background: var(--orange); color: #fff; }
+.btn.solid { background: var(--ink); color: #fff; }
+.btn.solid:hover { background: var(--orange); }
+.btn.line { border-color: var(--line-dark); color: var(--on-dark); }
+.btn.line:hover { border-color: var(--on-dark); }
+.btn.dline { border-color: var(--line); color: var(--text); }
+.btn.dline:hover { border-color: var(--text); }
+.btn .arr { display: inline-block; transition: transform .4s; }
+.btn:hover .arr { transform: translateX(4px); }
+#app[dir="rtl"] .btn .arr { transform: scaleX(-1); }
+#app[dir="rtl"] .btn:hover .arr { transform: scaleX(-1) translateX(4px); }
+.bar .btn { padding: 9px 20px; font-size: 13px; flex: none; }
+
+/* hero */
+.hero { position: relative; background: radial-gradient(900px 560px at var(--mx, 72%) var(--my, 18%), rgba(51,102,255,.22), transparent 62%), var(--ink); color: var(--on-dark); overflow: hidden; }
+.hero .wrap { z-index: 1; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: 56px; align-items: center; padding-block: 110px 100px; }
+.hero h1 { font-size: clamp(3rem, 6.6vw, 6rem); margin: 26px 0 28px; }
+.hero .lead { margin-bottom: 40px; font-size: 1.15rem; color: var(--on-dark-2); }
+.cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.frame { position: relative; padding: 12px; border: 1px solid var(--line-dark); border-radius: 4px; }
+.frame .pic { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--ink-2); }
+.frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; filter: grayscale(1) contrast(1.05) brightness(.95); display: block; animation: zoom 30s ease-in-out infinite alternate; }
+@keyframes zoom { from { transform: scale(1.02); } to { transform: scale(1.12); } }
+.frame .pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,11,36,.1), rgba(5,11,36,.72)); }
+.float { position: absolute; z-index: 3; inset-inline-start: -34px; bottom: 44px; background: rgba(16,28,74,.82); backdrop-filter: blur(10px); border: 1px solid var(--line-dark); border-radius: 14px; padding: 14px 18px; display: flex; flex-direction: column; gap: 2px; min-width: 232px; animation: drift 9s ease-in-out infinite; }
+.float b { font-weight: 600; font-size: 15px; }
+.float span { font-size: 12px; color: var(--on-dark-2); }
+.float .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; margin-inline-end: 8px; animation: breathe 3s ease-in-out infinite; }
+@keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes breathe { 50% { opacity: .35; } }
+.strip { border-top: 1px solid var(--line-dark); position: relative; z-index: 1; }
+.strip .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding-block: 0; }
+.strip .it { padding: 30px 22px; border-inline-start: 1px solid var(--line-dark); display: flex; flex-direction: column; gap: 4px; }
+.strip .it:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.strip b { font-family: var(--f-display); font-weight: 400; font-size: 1.7rem; line-height: 1.2; }
+.strip span { font-size: 13px; color: var(--on-dark-2); }
+
+/* manifesto */
+.manifesto .big { font-family: var(--f-display); font-size: clamp(2rem, 4.6vw, 3.9rem); line-height: 1.12; max-width: 24ch; text-wrap: balance; }
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 80px; }
+.three > div { border-top: 1px solid var(--line); padding-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+.three b { font-family: var(--f-display); font-weight: 400; font-size: 1.1rem; color: var(--orange); }
+.three p { color: var(--text-2); }
+
+/* pillars */
+.pillars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.pc { background: var(--white); border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .6s cubic-bezier(.2,.7,.2,1), border-color .4s; min-width: 0; }
+.pc:hover { transform: translateY(-8px); border-color: var(--text); }
+.pv { position: relative; height: 190px; background: var(--ink); overflow: hidden; }
+.pv img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); display: block; transition: transform 1.6s ease; }
+.pc:hover .pv img { transform: scale(1.08); }
+.pv.ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,11,36,.1), rgba(5,11,36,.6)); }
+.pv svg { width: 100%; height: 100%; display: block; }
+.pb { padding: 26px 24px 28px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.pb .no { font-family: var(--f-display); color: var(--orange); font-size: 1rem; }
+.pb h3 { font-family: var(--f-display); font-weight: 400; font-size: 1.9rem; line-height: 1.1; }
+.pb p { color: var(--text-2); font-size: 15px; line-height: 1.7; }
+.pb ul { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.pb li { font-size: 14px; padding-inline-start: 16px; position: relative; line-height: 1.55; }
+.pb li::before { content: ""; position: absolute; inset-inline-start: 0; top: .7em; width: 6px; height: 1px; background: var(--orange); }
+.route { stroke-dasharray: 5 7; animation: dashrun 3s linear infinite; }
+.pulse { stroke-dasharray: 340; stroke-dashoffset: 340; animation: draw 4s ease-in-out infinite; }
+@keyframes dashrun { to { stroke-dashoffset: -24; } }
+@keyframes draw { 0% { stroke-dashoffset: 340; } 55%, 100% { stroke-dashoffset: 0; } }
+
+/* day */
+.day { overflow: hidden; }
+.day .bg { position: absolute; inset: 0; opacity: .22; }
+.day .bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0; transition: opacity 1.4s ease; }
+.day .bg img.on { opacity: 1; }
+.day .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink-2) 8%, rgba(11,21,56,.55)); }
+.day .wrap { z-index: 1; }
+.dgrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 56px; align-items: center; }
+.clock { font-family: var(--f-display); font-size: clamp(4.4rem, 11vw, 9rem); line-height: .95; color: var(--on-dark); font-variant-numeric: tabular-nums; direction: ltr; text-align: start; }
+.clock small { font-family: var(--f-body); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--on-dark-2); display: block; margin-top: 12px; }
+#app[dir="rtl"] .clock small { letter-spacing: 0; text-transform: none; font-size: 13px; }
+.dgrid h3 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin: 26px 0 12px; }
+.dgrid .desc { color: var(--on-dark-2); max-width: 46ch; }
+.pcard { background: rgba(16,28,74,.8); backdrop-filter: blur(12px); border: 1px solid var(--line-dark); border-radius: 28px; padding: 22px; max-width: 360px; margin-inline: auto; width: 100%; }
+.pcard .top { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--on-dark-2); letter-spacing: .08em; padding-bottom: 14px; border-bottom: 1px solid var(--line-dark); }
+.pcard .nt { margin-top: 18px; background: rgba(238,241,251,.08); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 6px; animation: rise .8s cubic-bezier(.2,.7,.2,1); }
+@keyframes rise { from { transform: translateY(16px); } to { transform: none; } }
+.pcard .nt span { font-size: 11px; color: var(--orange); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.pcard .nt p { font-size: 15px; line-height: 1.6; }
+.pcard .ghost { margin-top: 12px; height: 54px; border-radius: 16px; background: rgba(238,241,251,.04); }
+.wavewrap { margin-top: 64px; }
+.wave { position: relative; }
+.wsvg { display: block; width: 100%; height: 120px; overflow: visible; }
+#app[dir="rtl"] .wsvg { transform: scaleX(-1); }
+.wb { fill: none; stroke: var(--line-dark); stroke-width: 1.5; stroke-dasharray: 3 7; vector-effect: non-scaling-stroke; }
+.wl { fill: none; stroke: url(#gflow); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.wdots { position: absolute; inset: 0 0 auto 0; height: 120px; }
+.wd { position: absolute; width: 13px; height: 13px; margin-top: -6.5px; margin-inline-start: -6.5px; border-radius: 50%; background: var(--ink-2); border: 1px solid var(--on-dark-2); transition: background .4s, border-color .4s; }
+.wd.past { border-color: var(--orange); background: var(--orange); }
+.worb { position: absolute; width: 22px; height: 22px; margin-top: -11px; margin-inline-start: -11px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 5px rgba(244,111,32,.35), 0 0 28px 8px rgba(244,111,32,.55); }
+.wlabels { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-top: 18px; }
+.mo { background: none; border: 0; padding: 8px 6px; text-align: center; color: var(--on-dark-2); font-size: 13px; line-height: 1.35; transition: color .4s; }
+.mo[aria-selected="true"] { color: var(--on-dark); }
+.mo b { display: block; font-weight: 600; font-variant-numeric: tabular-nums; direction: ltr; }
+.dctl { margin-top: 44px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.dctl .note { font-size: 12px; color: var(--on-dark-2); }
+
+/* trust */
+.principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 48px; }
+.pr { border-top: 1px solid var(--line-dark); padding: 28px 0 40px; display: flex; flex-direction: column; gap: 12px; }
+.pr b { font-family: var(--f-display); font-weight: 400; font-size: 1rem; color: var(--orange); }
+.pr h3 { font-family: var(--f-display); font-weight: 400; font-size: 1.7rem; }
+.pr p { color: var(--on-dark-2); font-size: 15px; }
+.quote { font-family: var(--f-display); font-size: clamp(1.9rem, 4vw, 3.2rem); line-height: 1.15; max-width: 22ch; margin-top: 50px; }
+
+/* proof */
+.targets { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.tg { padding: 34px 22px 10px; border-inline-start: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.tg:first-child { border-inline-start: 0; padding-inline-start: 0; }
+.tg b { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.8rem); line-height: 1; direction: ltr; text-align: start; }
+.tg span { font-size: 14px; color: var(--text-2); line-height: 1.5; }
+.pnote { margin-top: 34px; font-size: 14px; color: var(--text-2); display: flex; gap: 12px; align-items: center; }
+.pnote::before { content: ""; width: 8px; height: 8px; background: var(--orange); border-radius: 50%; flex: none; }
+
+/* standard */
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; position: relative; }
+.steps::before { content: ""; position: absolute; inset-inline: 0; top: 6px; height: 1px; background: var(--line); }
+.sp { position: relative; padding-top: 38px; display: flex; flex-direction: column; gap: 12px; }
+.sp::before { content: ""; position: absolute; top: 0; inset-inline-start: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--orange); }
+.sp h3 { font-family: var(--f-display); font-weight: 400; font-size: 1.9rem; }
+.sp p { color: var(--text-2); font-size: 15px; }
+
+/* programmes */
+.progs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.pg { background: var(--pearl); border: 1px solid var(--line); padding: 40px 32px 34px; display: flex; flex-direction: column; gap: 20px; position: relative; min-width: 0; }
+.pg.feat { background: var(--ink); color: var(--on-dark); border-color: var(--ink); }
+.pg.feat::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 3px; background: var(--orange); }
+.pg .tag { font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); min-height: 18px; }
+#app[dir="rtl"] .pg .tag { letter-spacing: 0; text-transform: none; font-size: 13px; }
+.pg h3 { font-family: var(--f-display); font-weight: 400; font-size: 2.2rem; line-height: 1.05; }
+.pg .inc { font-size: 13px; color: var(--text-2); }
+.pg.feat .inc { color: var(--on-dark-2); }
+.pg ul { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.pg li { font-size: 15px; padding-inline-start: 20px; position: relative; line-height: 1.55; }
+.pg li::before { content: ""; position: absolute; inset-inline-start: 0; top: .7em; width: 9px; height: 1px; background: var(--orange); }
+.pg .price { font-family: var(--f-display); font-size: 1.4rem; padding-top: 20px; border-top: 1px solid var(--line); }
+.pg.feat .price { border-color: var(--line-dark); }
+
+/* faq */
+.faq { max-width: 860px; }
+details { border-top: 1px solid var(--line); }
+details:last-child { border-bottom: 1px solid var(--line); }
+summary { list-style: none; cursor: pointer; padding: 26px 0; display: flex; justify-content: space-between; gap: 20px; font-family: var(--f-display); font-size: 1.5rem; line-height: 1.25; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--orange); font-size: 1.8rem; line-height: 1; transition: transform .4s; flex: none; }
+details[open] summary::after { transform: rotate(45deg); }
+details p { padding-bottom: 28px; color: var(--text-2); max-width: 62ch; }
+
+/* final cta */
+.final { overflow: hidden; text-align: center; }
+.final .wm { position: absolute; width: min(520px, 80vw); left: 50%; top: 50%; translate: -50% -50%; opacity: .06; pointer-events: none; }
+.final .wrap { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+.final h2 { font-size: clamp(2.6rem, 6.4vw, 5.4rem); max-width: 16ch; }
+.final .eb { justify-content: center; }
+.msgbox { width: min(560px, 100%); border: 1px solid var(--line-dark); border-radius: 18px; padding: 18px 20px; font-size: 14px; color: var(--on-dark-2); text-align: start; line-height: 1.7; user-select: all; }
+.copied { font-size: 13px; color: var(--green); min-height: 20px; }
+footer { background: var(--ink); color: var(--on-dark-2); border-top: 1px solid var(--line-dark); }
+footer .wrap { padding-block: 34px calc(34px + env(safe-area-inset-bottom, 0px)); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: center; font-size: 13px; }
+footer .brand { color: var(--on-dark); }
+
+
+/* motion flow: rail, ribbons, pipeline */
+.rail { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 6; overflow: visible; }
+.rail .base { fill: none; stroke: rgba(120,132,180,.3); stroke-width: 1.5; }
+.rail .live { fill: none; stroke: url(#grail); stroke-width: 3; stroke-linecap: round; }
+.rail .nd { fill: var(--ink); stroke: rgba(120,132,180,.7); stroke-width: 1.5; transition: fill .5s, stroke .5s; }
+.rail .nd.on { fill: var(--orange); stroke: var(--orange); }
+.rail .orb { fill: #fff; stroke: var(--orange); stroke-width: 3; }
+.rail .halo { fill: var(--orange); opacity: .4; filter: url(#gl); }
+main { position: relative; }
+.rib { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.rib path { fill: none; stroke-linecap: round; }
+.rib .u { stroke: rgba(238,241,251,.08); stroke-width: 1.2; }
+.rib .st { stroke: url(#gflow); stroke-width: 2.4; stroke-dasharray: 190 1750; animation: streak 9s linear infinite; }
+.rib .st:nth-of-type(4) { animation-duration: 12s; animation-delay: -4s; }
+.rib .st:nth-of-type(6) { animation-duration: 10s; animation-delay: -7s; }
+.rib .st:nth-of-type(8) { animation-duration: 14s; animation-delay: -2s; }
+@keyframes streak { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1940; } }
+.hero .wrap { transform: translateY(calc(var(--p, 0) * -22px)); }
+
+.flow .lead { margin-top: -6px; }
+.fl { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 8px; }
+.fl li { position: relative; list-style: none; }
+.fn { width: 100%; background: none; border: 0; padding: 0 6px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; color: var(--on-dark-2); transition: color .4s; }
+.fn .ic { width: 64px; height: 64px; border-radius: 50%; border: 1px solid var(--line-dark); background: var(--ink-3); display: grid; place-items: center; position: relative; z-index: 1; transition: transform .6s cubic-bezier(.2,.7,.2,1), border-color .4s, background .4s, box-shadow .6s; }
+.fn .ic svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.fn .tx { display: flex; flex-direction: column; gap: 4px; }
+.fn small { font-size: 12px; letter-spacing: .14em; color: var(--orange); font-weight: 600; direction: ltr; }
+.fn .ft { font-family: var(--f-display); font-size: 1.5rem; line-height: 1.1; color: var(--on-dark); font-weight: 400; }
+.fn .tx > span { font-size: 13px; line-height: 1.4; }
+.fl li.done .ic { border-color: var(--orange); }
+.fl li.on .ic { transform: scale(1.14); background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 0 0 8px rgba(244,111,32,.18), 0 0 40px rgba(244,111,32,.45); }
+.fl li.on .fn { color: var(--on-dark); }
+.cn { position: absolute; top: 31px; inset-inline-start: calc(50% + 40px); width: calc(100% - 80px); height: 2px; background: var(--line-dark); overflow: hidden; }
+.cn::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; inset-inline-start: -45%; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: cnrun 2.2s linear infinite; }
+.fl li.done .cn { background: var(--orange); }
+@keyframes cnrun { to { inset-inline-start: 110%; } }
+.floop { position: relative; height: 54px; margin: 30px calc(100% / 12) 0; border: 1px dashed var(--line-dark); border-top: 0; border-radius: 0 0 30px 30px; }
+.floop::after { content: ""; position: absolute; bottom: -5px; width: 9px; height: 9px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 14px 3px rgba(244,111,32,.6); inset-inline-end: 0; animation: loopback 6s ease-in-out infinite; }
+.floop span { position: absolute; inset-inline: 0; bottom: 14px; text-align: center; font-size: 13px; color: var(--on-dark-2); }
+@keyframes loopback { 0% { inset-inline-end: 0; } 100% { inset-inline-end: calc(100% - 9px); } }
+.fdet { margin-top: 52px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 36px; align-items: start; border-top: 1px solid var(--line-dark); padding-top: 34px; }
+.fdet .fnum { font-family: var(--f-display); font-size: clamp(3rem, 6vw, 5rem); line-height: 1; color: var(--orange); direction: ltr; font-variant-numeric: tabular-nums; }
+.fdet h3 { font-family: var(--f-display); font-weight: 400; font-size: 2rem; margin-bottom: 10px; }
+.fdet p { color: var(--on-dark-2); max-width: 62ch; }
+.fdet .body { animation: rise .8s cubic-bezier(.2,.7,.2,1); }
+.fctl { margin-top: 30px; display: flex; gap: 14px; align-items: center; }
+.pillars.rv .pc { transform: translateY(34px); transition: transform .9s cubic-bezier(.2,.7,.2,1), border-color .4s; transition-delay: calc(var(--i) * .12s); }
+.pillars.rv.in .pc { transform: none; }
+.pillars.rv.in .pc:hover { transform: translateY(-8px); transition-delay: 0s; }
+.steps::after { content: ""; position: absolute; top: 4px; height: 3px; width: 140px; inset-inline-start: -140px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: stepsrun 5.5s linear infinite; }
+@keyframes stepsrun { to { inset-inline-start: 100%; } }
+@media (max-width: 760px) {
+  .wrap { padding-inline: 40px 16px; }
+  .fl { grid-template-columns: minmax(0, 1fr); }
+  .fn { flex-direction: row; text-align: start; gap: 16px; padding: 0 0 26px; align-items: center; }
+  .fn .ic { flex: none; width: 56px; height: 56px; }
+  .cn { top: 60px; bottom: 0; inset-inline-start: 27px; width: 2px; height: auto; }
+  .cn::after { inset: auto 0 auto 0; width: auto; height: 40%; top: -45%; animation-name: cnrunv; background: linear-gradient(180deg, transparent, var(--orange), transparent); }
+  @keyframes cnrunv { to { top: 110%; } }
+  .fl li:last-child .fn { padding-bottom: 0; }
+  .floop { display: none; }
+  .fdet { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}
+
+
+/* v5: logo, form, marquee, stickers, faces, tagline */
+.lockup { color: var(--on-dark); display: block; width: auto; }
+footer .lockup { color: var(--on-dark); }
+.herologo { display: block; width: auto; color: var(--on-dark); margin-bottom: 8px; overflow: visible; }
+.assemble .lgG { animation: lgdrop 1.3s cubic-bezier(.3,.9,.3,1) .25s backwards; }
+.assemble .lgB { animation: lgdrop 1.3s cubic-bezier(.3,.9,.3,1) .55s backwards; }
+.assemble .lgW { animation: lgslide 1.2s cubic-bezier(.2,.7,.2,1) .9s backwards; }
+@keyframes lgdrop { from { transform: translateY(-420px); } }
+@keyframes lgslide { from { transform: translateX(-140px); } }
+.frame img.stk { position: absolute; z-index: 4; pointer-events: none; height: auto; object-fit: contain; filter: none; will-change: transform; }
+.frame img.stk.s1 { width: 104px; inset-inline-end: -26px; top: -18px; animation: bob 7s ease-in-out infinite; }
+.frame img.stk.s2 { width: 78px; inset-inline-end: -22px; bottom: 90px; animation: bob 9s ease-in-out -2s infinite; }
+.frame img.stk.s3 { width: 96px; inset-inline-start: -28px; top: 54px; animation: bob 8s ease-in-out -4s infinite; }
+@keyframes bob { 0%, 100% { translate: 0 0; rotate: -3deg; } 50% { translate: 0 -12px; rotate: 4deg; } }
+.sk { position: absolute; z-index: 0; pointer-events: none; height: auto; transform: translate3d(0, calc(var(--y, 0) * 1px), 0) rotate(calc(var(--r, 0deg) + var(--rr, 0) * 1deg)); will-change: transform; }
+.manifesto, #ecosystem, .faces, #proof, #programmes, #faq { overflow: hidden; }
+.dr { width: 38px; height: 38px; fill: none; stroke: var(--orange); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.dr path { stroke-dasharray: 1; }
+.in .dr path { animation: drw 1.8s ease-out backwards; }
+@keyframes drw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.three > div > .dr, .pr > .dr, .sp > .dr, .pg > .dr { margin-bottom: 4px; }
+.pg.feat .dr { stroke: var(--orange); }
+
+/* marquee */
+.mq { background: var(--pearl); border-bottom: 1px solid var(--line); overflow: hidden; direction: ltr; padding-block: 18px; display: flex; flex-direction: column; gap: 12px; }
+.mq-track { display: flex; gap: 12px; width: max-content; animation: mq 46s linear infinite; }
+.mq-track.rev { animation-direction: reverse; animation-duration: 54s; }
+.mq:hover .mq-track { animation-play-state: paused; }
+@keyframes mq { to { transform: translateX(-50%); } }
+.chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px 10px 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--white); font-size: 14px; font-weight: 500; white-space: nowrap; color: var(--text); }
+.chip svg { width: 20px; height: 20px; fill: none; stroke: var(--orange); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.chip:nth-child(3n+2) svg { stroke: var(--blue); }
+.chip:nth-child(3n) svg { stroke: var(--green); }
+
+/* faces */
+.fcs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; align-items: center; padding-block: 30px 40px; }
+.fc { margin: 0; position: relative; transform: translate3d(0, calc(var(--y, 0) * 1px), 0); will-change: transform; }
+.fc img { width: 100%; height: auto; display: block; border-radius: 3px; background: var(--white); box-shadow: 0 24px 50px -28px rgba(5,11,36,.5); }
+.fc .ring { position: absolute; inset: -9px; border: 1px solid var(--orange); border-radius: 6px; opacity: .55; pointer-events: none; transform: translate(calc(var(--y, 0) * -.3px), 0); }
+.fc:nth-child(2n) .ring { border-color: var(--blue); }
+.fc:nth-child(3n) .ring { border-color: var(--green); }
+
+/* tagline band */
+.tband { background: var(--ink); overflow: hidden; direction: ltr; padding-block: 38px; border-top: 1px solid var(--line-dark); }
+.ttrack { display: flex; gap: 40px; width: max-content; transform: translate3d(calc(var(--tx, 0) * 1px), 0, 0); will-change: transform; }
+.ttrack span { font-family: "Instrument Serif", "Amiri", serif; font-size: clamp(3.4rem, 9vw, 7.4rem); line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(238,241,251,.5); display: inline-flex; align-items: center; gap: 40px; }
+.ttrack span:nth-child(3n+1) { color: var(--on-dark); -webkit-text-stroke: 0; }
+.ttrack i { width: 14px; height: 14px; border-radius: 50%; background: var(--orange); flex: none; }
+.ttrack span:nth-child(3n+2) i { background: var(--blue); }
+.ttrack span:nth-child(3n) i { background: var(--green); }
+
+/* final contact line */
+.mailline { color: var(--on-dark-2); font-size: 15px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.mailline a { color: var(--on-dark); font-weight: 600; direction: ltr; }
+.cp { background: none; border: 1px solid var(--line-dark); border-radius: 99px; padding: 4px 14px; font-size: 12px; color: var(--on-dark-2); }
+.cp:hover { color: var(--on-dark); border-color: var(--on-dark); }
+
+/* dialog form */
+html:has(dialog[open]) { overflow: hidden; }
+dialog { border: 0; padding: 0; background: transparent; width: min(700px, calc(100vw - 24px)); max-width: none; color: var(--text); font-family: var(--f-body); overflow: visible; }
+dialog::backdrop { background: rgba(5,11,36,.78); backdrop-filter: blur(6px); }
+.dl-box { position: relative; background: var(--pearl); border-radius: 6px; padding: 44px 40px 34px; max-height: calc(100vh - 28px); max-height: calc(100dvh - 28px); overflow: auto; border-top: 3px solid var(--orange); }
+.dl-box h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); margin: 14px 0 10px; }
+.dl-sub { color: var(--text-2); font-size: 15px; max-width: 54ch; margin-bottom: 24px; }
+.dl-x { position: absolute; inset-block-start: 12px; inset-inline-end: 14px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--white); font-size: 22px; line-height: 1; color: var(--text); }
+.dl-x:hover { border-color: var(--text); }
+.fgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+.fld { display: flex; flex-direction: column; gap: 6px; min-width: 0; font-size: 13px; font-weight: 600; color: var(--text); }
+.fld.full { grid-column: 1 / -1; }
+.fld input, .fld select, .fld textarea { font: inherit; font-weight: 400; font-size: 15px; color: var(--text); background: var(--white); border: 1px solid var(--line); border-radius: 3px; padding: 12px 14px; width: 100%; min-width: 0; }
+.fld textarea { min-height: 96px; resize: vertical; }
+.fld input:focus, .fld select:focus, .fld textarea:focus { outline: 2px solid var(--orange); outline-offset: 0; border-color: transparent; }
+.fld[data-bad="1"] input, .fld[data-bad="1"] select { border-color: #B42318; }
+.fld .err { color: #B42318; font-weight: 500; min-height: 0; }
+.fld input[dir="ltr"] { text-align: start; }
+.consent { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--text-2); margin-top: 6px; }
+.consent input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--orange); flex: none; }
+.dl-act { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; align-items: center; }
+.dl-pre { white-space: pre-wrap; word-break: break-word; background: var(--white); border: 1px solid var(--line); border-radius: 4px; padding: 16px 18px; font-family: var(--f-body); font-size: 14px; line-height: 1.7; max-height: 260px; overflow: auto; margin: 0; }
+.dl-ok { margin-top: 12px; font-size: 13px; color: #2E7D32; min-height: 18px; }
+@media (max-width: 760px) {
+  .fcs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sk { display: none; }
+  .frame img.stk.s1 { width: 72px; inset-inline-end: -8px; } .frame img.stk.s2 { display: none; } .frame img.stk.s3 { width: 66px; inset-inline-start: -8px; }
+  .fgrid { grid-template-columns: minmax(0, 1fr); }
+  .dl-box { padding: 40px 20px 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .assemble .lgG, .assemble .lgB, .assemble .lgW, .stk, .mq-track, .in .dr path { animation: none !important; }
+}
+
+
+.dwgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-top: 28px; }
+.dwc { display: flex; gap: 16px; align-items: flex-start; border: 1px solid var(--line, #d9deef); border-radius: 4px; padding: 22px; color: inherit; text-decoration: none; transition: transform .5s cubic-bezier(.2,.7,.2,1), border-color .3s; }
+.dwc:hover { transform: translateY(-6px); border-color: var(--orange); }
+.dwx { flex: none; width: 48px; height: 56px; border-radius: 6px; background: var(--ink, #0A1236); color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 700; letter-spacing: .06em; border-bottom: 4px solid var(--orange); }
+.dwc b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 1.3rem; line-height: 1.2; }
+.dwc small { display: block; margin-top: 6px; font-size: 13px; opacity: .7; line-height: 1.5; }
+.dwc em { display: block; margin-top: 10px; font-style: normal; font-size: 12.5px; color: var(--orange); font-weight: 600; }
+
+.cx .cxh { max-width: 820px; margin-bottom: 36px; }
+.cx .cxp { max-width: 820px; display: flex; flex-direction: column; gap: 14px; font-size: 1.05rem; }
+.cx.center .cxh, .cx.center .cxp { margin-inline: auto; text-align: center; }
+.cx .cxm { display: grid; gap: 18px; margin-top: 34px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.cx .cxm img, .cx .cxm video { width: 100%; height: auto; border-radius: 4px; display: block; background: #0002; }
+.cx .cxm .vid { position: relative; aspect-ratio: 16 / 9; }
+.cx .cxm iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 4px; }
+.cx .cxb { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+.cx.center .cxb { justify-content: center; }
+.soc { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* v6: complete system explorer, roles */
+.sys .head { margin-bottom: 40px; }
+.stabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 34px; }
+.stab { background: none; border: 1px solid var(--line-dark); border-radius: 99px; padding: 9px 18px; font-size: 14px; color: var(--on-dark-2); display: inline-flex; gap: 10px; align-items: center; transition: color .3s, background .3s, border-color .3s; }
+.stab b { font-weight: 600; font-size: 12px; color: var(--orange); direction: ltr; }
+.stab:hover { color: var(--on-dark); border-color: var(--on-dark-2); }
+.stab[aria-selected="true"] { background: var(--on-dark); color: var(--ink); border-color: var(--on-dark); }
+.stab[aria-selected="true"] b { color: var(--ink); }
+.sgrid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 44px; align-items: start; }
+.slist { display: flex; flex-direction: column; border-top: 1px solid var(--line-dark); }
+.smod { display: flex; align-items: center; gap: 16px; padding: 16px 4px; background: none; border: 0; border-bottom: 1px solid var(--line-dark); text-align: start; color: var(--on-dark-2); transition: color .3s, padding .4s cubic-bezier(.2,.7,.2,1); }
+.smod svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: stroke .3s; }
+.smod span { font-family: var(--f-display); font-size: 1.45rem; line-height: 1.15; }
+.smod:hover { color: var(--on-dark); }
+.smod[aria-selected="true"] { color: var(--on-dark); padding-inline-start: 16px; }
+.smod[aria-selected="true"] svg { stroke: var(--orange); }
+.sdet { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; animation: rise .7s cubic-bezier(.2,.7,.2,1); }
+.sdet h3 { font-family: var(--f-display); font-weight: 400; font-size: 1.9rem; line-height: 1.1; }
+.sdet .tl { color: var(--on-dark-2); font-size: 15px; }
+.sdet ul { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.sdet li { font-size: 14.5px; padding-inline-start: 18px; position: relative; line-height: 1.55; color: var(--on-dark); }
+.sdet li::before { content: ""; position: absolute; inset-inline-start: 0; top: .72em; width: 8px; height: 1px; background: var(--orange); }
+.pilot { align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: var(--green); border: 1px solid var(--green); border-radius: 99px; padding: 3px 12px; }
+#app[dir="rtl"] .pilot { letter-spacing: 0; font-size: 12.5px; }
+.sview { position: sticky; top: calc(88px + env(safe-area-inset-top, 0px)); }
+.scap { margin-top: 12px; font-size: 12px; color: var(--on-dark-2); text-align: center; }
+.scr { aspect-ratio: 16 / 10; border-radius: 14px; border: 1px solid var(--line-dark); background: linear-gradient(160deg, #101D4C, #0A1236); overflow: hidden; box-shadow: 0 40px 80px -40px rgba(0,0,0,.7), 0 0 0 1px rgba(244,111,32,.06); position: relative; }
+.scr-top { display: flex; gap: 6px; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--line-dark); }
+.scr-top i { width: 9px; height: 9px; border-radius: 50%; background: rgba(238,241,251,.22); }
+.scr-top span { margin-inline-start: auto; font-size: 11px; letter-spacing: .12em; color: var(--on-dark-2); }
+#app[dir="rtl"] .scr-top span { letter-spacing: 0; }
+.scr-b { display: flex; gap: 12px; padding: 14px; height: calc(100% - 38px); position: relative; animation: rise .8s cubic-bezier(.2,.7,.2,1); }
+.m-col { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.m-row { display: flex; gap: 9px; align-items: center; min-width: 0; }
+.m-b { background: rgba(238,241,251,.07); border-radius: 10px; padding: 9px 11px; font-size: 11.5px; color: var(--on-dark); line-height: 1.4; min-width: 0; }
+.m-t { font-size: 10px; color: var(--on-dark-2); letter-spacing: .08em; }
+.m-l { height: 6px; border-radius: 4px; background: rgba(238,241,251,.15); margin-top: 6px; }
+.w30 { width: 30%; } .w50 { width: 50%; } .w70 { width: 70%; } .w90 { width: 90%; }
+.m-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--line-dark); font-size: 10.5px; color: var(--on-dark-2); white-space: nowrap; }
+.m-pill.o { border-color: var(--orange); color: var(--orange); } .m-pill.g { border-color: var(--green); color: var(--green); } .m-pill.bl { border-color: #7E9BFF; color: #9FB4FF; } .m-pill.r { border-color: #FF6B5B; color: #FF8E80; }
+.m-bar { height: 6px; border-radius: 4px; background: rgba(238,241,251,.12); overflow: hidden; }
+.m-bar i { display: block; height: 100%; width: var(--w, 60%); background: var(--orange); border-radius: 4px; transform-origin: left; animation: mgrow 3.6s ease-in-out infinite alternate; }
+#app[dir="rtl"] .m-bar i { transform-origin: right; }
+@keyframes mgrow { from { transform: scaleX(.3); } to { transform: scaleX(1); } }
+.m-dot { width: 22px; height: 22px; border-radius: 50%; background: #1B2C6B; border: 1px solid var(--line-dark); flex: none; }
+.m-btn { background: var(--orange); color: #fff; border-radius: 8px; padding: 7px 12px; font-size: 11px; font-weight: 600; text-align: center; }
+.m-hl { animation: mhl 12s infinite; animation-delay: calc(var(--i) * 2s); }
+@keyframes mhl { 0%, 15% { background: var(--orange); color: #fff; } 17%, 100% { background: rgba(238,241,251,.07); color: var(--on-dark); } }
+.m-pop { animation: mpop 7s ease-in-out infinite; animation-delay: calc(var(--i) * .9s); }
+@keyframes mpop { 0% { transform: translateY(10px) scale(.94); } 8%, 100% { transform: none; } }
+.m-i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.m-vid { height: 56px; border-radius: 8px; background: linear-gradient(135deg, #22358A, #0E1A4A); display: grid; place-items: center; margin: 8px 0; position: relative; }
+.m-play { width: 0; height: 0; border-left: 13px solid var(--on-dark); border-block: 8px solid transparent; }
+.m-tl { height: 4px; background: rgba(238,241,251,.15); border-radius: 3px; position: relative; margin-top: 10px; }
+.m-tl i { position: absolute; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); inset-inline-start: var(--x); animation: mpulse 2.4s ease-in-out infinite; animation-delay: calc(var(--i) * .5s); }
+@keyframes mpulse { 50% { transform: scale(1.5); box-shadow: 0 0 0 5px rgba(244,111,32,.25); } }
+.m-ck { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--green); color: #fff; }
+.m-ck svg { width: 11px; height: 11px; }
+.m-ck.o { background: transparent; border: 1.5px solid var(--orange); }
+.m-ck.l { background: transparent; border: 1px solid var(--line-dark); color: var(--on-dark-2); }
+.m-swap { position: relative; width: 18px; height: 18px; flex: none; color: var(--on-dark-2); }
+.m-swap svg { position: absolute; inset: 0; width: 18px; height: 18px; }
+.m-swap svg:first-child { animation: mswap 6s infinite; }
+.m-swap svg:last-child { color: var(--green); animation: mswap 6s infinite reverse; }
+@keyframes mswap { 0%, 45% { transform: scale(1); } 50%, 100% { transform: scale(0); } }
+.m-opt { border: 1px solid var(--line-dark); border-radius: 8px; padding: 6px 10px; font-size: 11px; display: flex; gap: 8px; align-items: center; animation: mopt 8s infinite; animation-delay: calc(var(--i) * 2s); }
+@keyframes mopt { 0%, 20% { border-color: var(--orange); background: rgba(244,111,32,.14); } 25%, 100% { border-color: rgba(238,241,251,.18); background: transparent; } }
+.m-seg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.m-seg i { height: 8px; border-radius: 2px; background: rgba(238,241,251,.15); animation: mseg 6s infinite; animation-delay: calc(var(--i) * .5s); }
+@keyframes mseg { 0%, 8% { background: rgba(238,241,251,.15); } 14%, 80% { background: var(--orange); } 90%, 100% { background: rgba(238,241,251,.15); } }
+.m-dots { display: inline-flex; gap: 4px; padding: 6px 0; }
+.m-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--on-dark-2); animation: mdot 1.2s infinite; animation-delay: calc(var(--i) * .18s); }
+@keyframes mdot { 40% { transform: translateY(-4px); background: var(--orange); } }
+.m-wave { display: flex; gap: 3px; align-items: center; height: 22px; }
+.m-wave i { width: 3px; height: 100%; border-radius: 2px; background: var(--orange); animation: mwave 1s ease-in-out infinite; animation-delay: calc(var(--i) * .11s); }
+@keyframes mwave { 0%, 100% { transform: scaleY(.25); } 50% { transform: scaleY(1); } }
+.m-bub { border-radius: 12px; padding: 8px 11px; font-size: 11.5px; line-height: 1.5; max-width: 86%; }
+.m-bub.u { background: rgba(238,241,251,.1); align-self: flex-end; }
+.m-bub.a { background: rgba(244,111,32,.16); border: 1px solid rgba(244,111,32,.4); align-self: flex-start; }
+.m-draw { stroke-dasharray: 400; stroke-dashoffset: 400; animation: mdraw 5s ease-in-out infinite; }
+@keyframes mdraw { 0% { stroke-dashoffset: 400; } 55%, 100% { stroke-dashoffset: 0; } }
+.m-svg { width: 100%; height: 100%; display: block; }
+.m-svg text { fill: var(--on-dark); font-size: 9px; font-family: inherit; }
+.m-svg rect.n { fill: rgba(238,241,251,.09); stroke: rgba(238,241,251,.3); stroke-width: 1; }
+.m-svg .ln { fill: none; stroke: rgba(238,241,251,.35); stroke-width: 1.2; stroke-dasharray: 140; stroke-dashoffset: 140; animation: mdraw 6s ease-in-out infinite; }
+.m-bars { display: flex; gap: 6px; align-items: flex-end; height: 74px; }
+.m-bars i { flex: 1; background: linear-gradient(180deg, var(--orange), #A9460F); border-radius: 3px 3px 0 0; height: var(--h); transform-origin: bottom; animation: mbar 3.4s ease-in-out infinite alternate; animation-delay: calc(var(--i) * .25s); }
+.m-bars i:nth-child(3n) { background: linear-gradient(180deg, #5B83FF, #2B4BC9); }
+@keyframes mbar { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
+.m-kpi { flex: 1; text-align: center; }
+.m-kpi b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; direction: ltr; }
+.m-tile { aspect-ratio: 1.3; border-radius: 8px; background: rgba(238,241,251,.07); display: grid; place-items: center; color: var(--orange); position: relative; overflow: hidden; }
+.m-tile:nth-child(3n+2) { color: #9FB4FF; } .m-tile:nth-child(3n) { color: var(--green); }
+.m-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.12) 50%, transparent 70%); transform: translateX(-100%); animation: mshine 4s infinite; animation-delay: calc(var(--i) * .4s); }
+@keyframes mshine { 40%, 100% { transform: translateX(100%); } }
+.m-tile svg { width: 22px; height: 22px; }
+.m-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+@keyframes mflip { 0%, 40% { transform: none; } 50%, 90% { transform: rotateX(8deg); background: rgba(244,111,32,.18); } 100% { transform: none; } }
+.m-caret { display: inline-block; width: 1px; height: 12px; background: var(--orange); vertical-align: middle; animation: mblink 1s steps(2) infinite; }
+@keyframes mblink { 50% { opacity: 0; } }
+.m-face { aspect-ratio: 1.4; border-radius: 8px; background: rgba(238,241,251,.07); display: grid; place-items: center; position: relative; }
+.m-face::before { content: ""; width: 22px; height: 22px; border-radius: 50%; background: #2A3F94; }
+.m-face.sp { box-shadow: inset 0 0 0 1.5px var(--green); animation: mring 2s ease-in-out infinite; }
+@keyframes mring { 50% { box-shadow: inset 0 0 0 3px var(--green); } }
+.m-phone { width: 46%; border: 1px solid var(--line-dark); border-radius: 18px; padding: 10px 8px; display: flex; flex-direction: column; gap: 7px; background: rgba(5,11,36,.5); margin-inline: auto; flex: none; }
+.m-ring { width: 74px; height: 74px; }
+.m-ring circle { fill: none; stroke-width: 7; }
+.m-ring .bg { stroke: rgba(238,241,251,.12); }
+.m-ring .fg { stroke: var(--green); stroke-linecap: round; stroke-dasharray: 188; stroke-dashoffset: 188; transform: rotate(-90deg); transform-origin: 50% 50%; animation: mring2 5s ease-in-out infinite alternate; }
+@keyframes mring2 { to { stroke-dashoffset: 40; } }
+.plan { margin-top: 56px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; border-top: 1px solid var(--line-dark); padding-top: 26px; }
+.plbl { font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); }
+#app[dir="rtl"] .plbl { letter-spacing: 0; text-transform: none; font-size: 13.5px; }
+.plch { display: flex; gap: 8px; flex-wrap: wrap; }
+.plch span { font-size: 13px; color: var(--on-dark-2); border: 1px dashed var(--line-dark); border-radius: 99px; padding: 6px 14px; }
+.roles .rgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.rc { border: 1px solid var(--line-dark); border-radius: 4px; padding: 30px 24px 28px; display: flex; flex-direction: column; gap: 14px; background: rgba(16,28,74,.4); transition: transform .6s cubic-bezier(.2,.7,.2,1), border-color .4s; }
+.rc:hover { transform: translateY(-8px); border-color: var(--orange); }
+.rc h3 { font-family: var(--f-display); font-weight: 400; font-size: 1.8rem; line-height: 1.1; }
+.rc > p { color: var(--on-dark-2); font-size: 15px; }
+.rc ul { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line-dark); display: flex; flex-direction: column; gap: 8px; }
+.rc li { font-size: 14px; padding-inline-start: 16px; position: relative; line-height: 1.55; }
+.rc li::before { content: ""; position: absolute; inset-inline-start: 0; top: .72em; width: 6px; height: 1px; background: var(--orange); }
+.rorb { position: relative; width: 76px; height: 76px; display: grid; place-items: center; margin-bottom: 6px; }
+.rorb::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px dashed rgba(238,241,251,.35); animation: spin 22s linear infinite; }
+.rorb::after { content: ""; position: absolute; top: -4px; inset-inline-start: calc(50% - 4px); width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 12px 2px rgba(244,111,32,.6); transform-origin: 4px 42px; animation: spin 7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.rorb .dr { width: 30px; height: 30px; }
+@media (max-width: 960px) {
+  .sgrid { grid-template-columns: minmax(0, 1fr); }
+  .sview { position: static; order: -1; }
+  .roles .rgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+  .stab { flex: none; }
+}
+@media (max-width: 560px) { .roles .rgrid { grid-template-columns: minmax(0, 1fr); } .scr-b { padding: 10px; gap: 8px; } .m-b { padding: 7px 8px; font-size: 10.5px; } }
+@media (prefers-reduced-motion: reduce) {
+  .scr-b, .sdet, .m-bar i, .m-hl, .m-pop, .m-tl i, .m-swap svg, .m-opt, .m-seg i, .m-dots i, .m-wave i, .m-draw, .m-svg .ln, .m-bars i, .m-tile::after, .m-caret, .m-face.sp, .m-ring .fg, .rorb::before, .rorb::after { animation: none !important; }
+  .m-draw, .m-svg .ln { stroke-dashoffset: 0; }
+  .m-ring .fg { stroke-dashoffset: 60; }
+}
+
+@media (max-width: 960px) {
+  .sec { padding-block: 90px; }
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 60px; padding-block: 70px 70px; }
+  .frame { max-width: 440px; margin-inline: auto; }
+  .float { inset-inline-start: -8px; }
+  .strip .wrap, .targets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip .it:nth-child(3) { border-inline-start: 0; padding-inline-start: 0; }
+  .tg:nth-child(3) { border-inline-start: 0; padding-inline-start: 0; }
+  .three, .principles, .progs { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .three { margin-top: 56px; }
+  .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dgrid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .wavewrap { overflow-x: auto; padding-bottom: 8px; }
+  .wave { min-width: 780px; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 44px; }
+  .steps::before { display: none; }
+  .nav { display: none; }
+  .bar .btn { margin-inline-start: auto; }
+}
+@media (max-width: 560px) {
+  .pillars, .steps { grid-template-columns: minmax(0, 1fr); }
+  .strip .wrap, .targets { grid-template-columns: minmax(0, 1fr); }
+  .strip .it, .tg { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--line-dark); }
+  .tg { border-top: 1px solid var(--line); }
+  .strip .it:first-child, .tg:first-child { border-top: 0; }
+  .bar .btn { display: none; }
+  .lang { margin-inline-start: auto; }
+  .float { min-width: 200px; bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .frame img, .float, .float .dot, .route, .pulse, .pcard .nt, .rib .st, .cn::after, .floop::after, .steps::after, .fdet .body { animation: none !important; }
+  .hero .wrap { transform: none; }
+  .pillars.rv .pc { transform: none; transition: none; }
+  .pulse { stroke-dashoffset: 0; }
+  .rv { transform: none; }
+  .rv, .mfill, .day .bg img, .pc, .pv img { transition: none; }
+}
+#menuToggle { display: none; }
+.hero .wrap { padding-block: clamp(36px, 5vw, 72px); }
+footer .wrap { flex-wrap: wrap; gap: 16px; }
+footer a, .contact-note a { color: inherit; }
+.contact-note { font-size: .95rem; line-height: 1.6; }
+@media (max-width: 960px) {
+  #menuToggle { display: block; margin-inline-start: auto; min-height: 44px; padding-inline: 12px; border: 1px solid #8d9bb2; border-radius: 8px; background: #14203a; color: white; cursor: pointer; }
+  .bar .wrap { position: relative; }
+  #nav.expanded { display: grid; position: absolute; inset-inline: 0; top: 100%; background: #14203a; padding: 12px; max-height: 70vh; overflow: auto; box-shadow: 0 12px 20px #0004; }
+  #nav.expanded a { display: block; padding: 12px; color: white; }
+  .bar .lang { margin-inline-start: 0; }
+}
+</style>
+
+<div id="app" dir="rtl" lang="ar">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="mk" viewBox="80 25 235 270">
+    <path d="M90 88H305V190a95 95 0 0 1-95 95H185a95 95 0 0 1-95-95Z" fill="#F46F20"/>
+    <rect x="125" y="33" width="145" height="110" rx="38" fill="#4DB749"/>
+    <path d="M125 88H270V140a38 38 0 0 1-38 38H163a38 38 0 0 1-38-38Z" fill="#3366FF"/>
+  </symbol>
+  <linearGradient id="gO" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#F55D20"/><stop offset="1" stop-color="#F56D20"/></linearGradient>
+  <linearGradient id="gB" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#323FFF"/><stop offset="1" stop-color="#3366FF"/></linearGradient>
+  <linearGradient id="gG" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#389B49"/><stop offset="1" stop-color="#4DB749"/></linearGradient>
+  <g id="lg-mark"><path d="M40 397H471V611A180 180 0 0 1 291 791H220A180 180 0 0 1 40 611Z" fill="url(#gO)"/><path d="M112 397V360A72 72 0 0 1 184 288H328A72 72 0 0 1 400 360V397Z" fill="url(#gG)"/><path d="M112 397H400V504A72 72 0 0 1 328 576H184A72 72 0 0 1 112 504Z" fill="url(#gB)"/></g>
+  <g id="lg-word" fill="currentColor"><path fill-rule="evenodd" d="M1607.0 486.5 1606.5 487.0 1606.5 683.5 1683.5 683.5 1684.0 683.0 1683.5 682.0 1683.5 488.5 1684.0 487.5 1683.5 486.5ZM1860.5 485.0 1855.5 485.0 1844.0 487.0 1837.5 489.0 1836.5 490.0 1827.0 494.0 1816.5 501.0 1810.5 506.0 1804.5 512.0 1796.5 522.0 1795.5 521.0 1795.5 488.5 1796.0 488.0 1795.5 486.5 1719.0 486.5 1718.5 487.0 1718.5 683.5 1795.5 683.5 1796.0 683.0 1795.5 682.0 1795.5 602.5 1797.5 588.0 1801.5 580.0 1806.0 575.5 1810.5 572.5 1815.5 570.5 1823.5 568.5 1832.5 567.5 1860.5 567.5ZM1382.5 509.0 1378.0 514.5 1370.0 527.5 1366.0 536.5 1366.0 538.0 1365.0 539.0 1362.0 549.0 1360.0 558.0 1358.0 575.0 1358.0 595.0 1361.0 617.0 1362.0 619.0 1363.0 625.0 1367.0 636.0 1372.0 646.0 1377.0 654.0 1383.0 661.5 1389.0 667.5 1401.5 676.5 1415.0 682.5 1428.0 685.5 1434.0 685.5 1434.5 686.0 1450.5 685.5 1466.0 681.5 1474.0 677.5 1483.5 670.5 1491.5 661.0 1492.5 658.5 1493.5 658.0 1494.0 658.5 1494.0 683.0 1494.5 683.5 1571.0 683.5 1571.5 683.0 1571.0 682.0 1571.0 488.5 1571.5 488.0 1571.0 486.5 1494.5 486.5 1494.0 487.0 1494.0 511.5 1493.0 512.0 1490.5 507.5 1484.0 500.0 1478.0 495.0 1469.5 490.0 1462.0 487.0 1454.0 485.0 1450.5 485.0 1446.5 484.0 1432.5 484.0 1420.0 486.0 1408.5 490.0 1400.5 494.0 1394.5 498.0ZM1461.0 551.5 1469.5 551.5 1474.0 552.5 1482.0 556.5 1488.0 562.5 1490.0 565.5 1492.0 570.0 1494.0 577.5 1494.0 592.0 1493.0 597.0 1490.0 604.5 1488.0 607.5 1482.5 613.0 1475.5 617.0 1468.0 618.5 1458.5 618.0 1455.0 617.0 1448.0 613.0 1442.5 607.5 1439.5 602.5 1436.5 592.0 1436.5 578.0 1437.5 575.5 1437.5 573.0 1440.5 565.5 1442.5 562.5 1448.5 556.5 1454.0 553.5ZM1089.5 489.0 1070.5 497.0 1061.0 503.0 1054.0 508.5 1045.0 517.5 1041.0 522.5 1035.0 531.5 1030.0 541.5 1025.0 556.5 1024.0 564.0 1023.0 566.5 1023.0 571.0 1022.0 576.0 1022.0 594.0 1023.0 599.0 1023.0 603.5 1024.0 606.0 1025.0 613.5 1030.0 628.5 1036.0 640.0 1041.0 647.5 1054.0 661.5 1059.0 665.5 1071.5 673.5 1079.0 676.5 1080.0 677.5 1090.0 680.5 1091.5 681.5 1111.5 685.5 1133.0 686.0 1153.0 683.5 1155.0 682.5 1161.0 681.5 1174.5 676.5 1182.5 672.5 1192.0 666.5 1204.5 655.5 1215.0 642.0 1223.5 625.5 1228.5 608.0 1230.5 589.5 1230.5 580.5 1230.0 580.0 1229.5 568.5 1227.5 557.5 1222.5 542.0 1217.5 532.0 1208.5 519.0 1201.0 511.0 1194.0 505.0 1183.5 498.0 1168.5 491.0 1150.5 486.0 1135.0 484.0 1117.0 484.0 1112.0 485.0 1107.5 485.0ZM1126.0 550.5 1133.0 551.5 1140.5 555.5 1145.0 560.0 1149.0 566.5 1151.0 573.0 1152.0 580.0 1152.0 590.0 1151.0 597.0 1148.0 605.5 1145.0 610.0 1141.0 614.0 1136.5 617.0 1131.0 619.0 1121.5 619.0 1115.5 617.0 1111.0 614.0 1107.5 610.5 1103.5 604.0 1100.5 592.5 1100.5 577.5 1102.5 568.5 1104.5 564.0 1108.5 558.5 1114.0 554.0 1119.5 551.5ZM883.5 486.0 863.5 492.0 853.5 497.0 845.5 502.0 838.0 508.0 831.0 515.0 825.0 522.5 818.0 534.0 813.0 545.5 811.0 552.0 811.0 554.0 810.0 555.5 807.0 575.5 807.0 594.5 808.0 599.5 808.0 604.0 809.0 606.5 809.0 609.5 811.0 616.0 811.0 618.0 817.0 634.0 825.0 647.5 831.0 655.0 837.5 661.5 843.5 666.5 852.5 672.5 862.5 677.5 873.5 681.5 893.5 685.5 901.0 685.5 901.5 686.0 921.5 685.5 937.5 682.5 945.5 679.5 947.0 679.5 962.0 672.0 972.5 664.5 982.5 655.0 992.5 641.5 998.5 630.0 998.5 628.5 1000.5 625.0 1000.5 623.5 1003.5 615.5 1005.5 604.5 924.0 604.5 920.0 613.0 914.5 618.0 908.5 620.0 903.5 620.0 899.5 619.0 895.5 616.5 892.5 613.5 889.5 609.0 886.5 600.0 885.5 594.0 885.5 576.0 886.5 572.5 886.5 569.5 889.5 561.0 892.5 556.5 898.5 551.5 901.0 550.5 907.5 550.0 911.0 550.5 916.0 553.0 921.0 558.5 924.0 565.5 1005.5 565.5 1005.5 562.5 1004.5 560.5 1003.5 554.5 997.5 538.0 992.5 528.5 987.5 521.0 975.5 508.0 969.5 503.0 960.5 497.0 945.5 490.0 944.0 490.0 939.5 488.0 925.5 485.0 916.5 484.0 898.5 484.0ZM1256.5 425.0 1256.5 683.5 1333.5 683.5 1334.0 683.0 1333.5 682.0 1333.5 426.5 1334.0 425.5 1333.5 425.0ZM1622.5 398.0 1614.0 403.5 1609.0 408.5 1606.0 412.5 1602.0 421.5 1602.0 424.0 1601.0 426.5 1601.0 438.0 1604.0 448.0 1608.5 455.0 1614.0 460.5 1621.5 465.5 1629.5 468.5 1638.5 470.0 1647.0 470.5 1657.0 469.5 1667.0 466.5 1676.0 461.0 1682.5 454.5 1687.5 446.0 1689.5 439.0 1689.5 425.5 1686.5 416.0 1682.5 409.5 1676.0 403.0 1670.0 399.0 1663.0 396.0 1654.5 394.0 1647.5 394.0 1647.0 393.5 1636.0 394.0 1627.5 396.0ZM649.0 388.0 627.5 392.0 611.0 398.0 603.0 402.0 593.5 408.0 584.0 416.0 578.0 422.5 572.0 431.0 572.0 432.0 569.0 436.5 565.0 446.5 565.0 448.5 564.0 450.0 561.5 465.5 561.5 483.0 564.0 498.0 568.0 509.0 575.0 520.0 584.5 530.5 597.5 540.5 604.5 544.5 614.5 548.5 615.5 549.5 617.0 549.5 618.0 550.5 624.5 552.5 625.5 553.5 630.0 554.5 631.0 555.5 632.5 555.5 649.0 561.5 660.5 564.5 680.0 571.5 688.0 575.5 695.5 580.5 702.0 587.0 705.0 592.0 707.0 601.5 706.0 610.0 702.0 618.0 697.0 623.0 694.0 625.0 683.5 629.0 675.5 630.0 669.5 630.0 658.5 628.0 657.5 627.0 654.0 626.0 648.0 622.0 644.0 618.0 639.5 611.0 637.5 606.0 636.5 599.0 635.5 596.5 561.0 596.5 560.5 600.5 562.0 613.0 563.0 615.0 564.0 621.0 568.0 631.5 572.0 639.0 577.5 647.0 584.0 654.5 590.5 660.5 601.5 668.5 610.5 673.5 620.0 677.5 621.5 677.5 622.5 678.5 632.5 681.5 653.5 685.5 659.0 685.5 665.0 686.5 683.5 686.5 701.0 684.5 720.0 679.5 727.5 676.5 739.0 670.5 746.5 665.5 756.0 657.5 766.5 645.0 770.5 638.5 775.5 628.0 779.5 614.0 779.5 611.0 780.5 607.5 780.5 598.5 781.0 598.0 780.5 594.0 781.0 593.5 780.5 593.0 780.5 585.5 778.5 575.0 774.5 564.0 769.5 555.5 758.5 543.0 746.5 533.5 735.0 527.0 720.0 521.0 719.0 520.0 717.5 520.0 708.5 516.0 707.0 516.0 706.0 515.0 704.5 515.0 694.5 511.0 684.0 508.0 680.0 506.0 675.5 505.0 665.5 501.0 651.0 494.0 644.0 489.0 639.5 483.5 636.5 476.0 636.5 465.0 637.5 461.0 640.5 455.0 646.0 449.5 653.5 445.5 661.0 444.0 674.0 444.5 681.0 446.5 688.0 450.5 693.0 455.0 698.0 462.5 700.0 469.0 700.0 473.0 701.0 474.5 776.5 474.5 777.0 470.5 775.5 459.0 774.5 457.0 773.5 451.0 768.5 438.0 760.0 424.5 746.0 410.5 731.5 401.0 725.5 398.0 712.0 393.0 694.0 389.0 679.5 387.5 670.5 387.5 670.0 387.0 669.5 387.5 665.5 387.0 665.0 387.5Z"/></g>
+  <linearGradient id="gflow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F46F20"/><stop offset=".55" stop-color="#3366FF"/><stop offset="1" stop-color="#4DB749"/></linearGradient>
+  <filter id="gl" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs></svg>
+<div class="progress" id="prog" aria-hidden="true"></div>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Scolair"><svg class="lockup" height="30" viewBox="40 288 1830 503" role="img" aria-label="Scolair"><use href="#lg-mark"/><use href="#lg-word"/></svg></a>
+    <button type="button" id="menuToggle" aria-controls="nav" aria-expanded="false">القائمة</button>
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+    <div class="lang" role="group" aria-label="Language"><button type="button" id="bAr" aria-pressed="true">عربي</button><button type="button" id="bEn" aria-pressed="false">EN</button></div>
+    <button class="btn light" type="button" data-open id="navcta"></button>
+  </div>
+</header>
+
+<main id="top">
+  <svg class="rail" id="rail" aria-hidden="true"></svg>
+  <!-- 1 hero -->
+  <section class="hero" id="hero">
+    <svg class="rib" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path class="u" d="M-40 520C240 380 420 640 720 470S1180 300 1500 420"/><path class="st" d="M-40 520C240 380 420 640 720 470S1180 300 1500 420"/>
+      <path class="u" d="M-40 600C300 500 520 700 820 580S1220 420 1500 520"/><path class="st" d="M-40 600C300 500 520 700 820 580S1220 420 1500 520"/>
+      <path class="u" d="M-40 300C260 220 480 380 760 260S1200 150 1500 230"/><path class="st" d="M-40 300C260 220 480 380 760 260S1200 150 1500 230"/>
+      <path class="u" d="M-40 420C280 300 500 520 800 390S1240 250 1500 340"/><path class="st" d="M-40 420C280 300 500 520 800 390S1240 250 1500 340"/>
+    </svg>
+    <div class="wrap">
+      <div class="rv">
+        <svg class="herologo assemble" height="64" viewBox="40 288 1830 503" role="img" aria-label="Scolair"><path d="M40 397H471V611A180 180 0 0 1 291 791H220A180 180 0 0 1 40 611Z" fill="url(#gO)"/><path class="lgG" d="M112 397V360A72 72 0 0 1 184 288H328A72 72 0 0 1 400 360V397Z" fill="url(#gG)"/><path class="lgB" d="M112 397H400V504A72 72 0 0 1 328 576H184A72 72 0 0 1 112 504Z" fill="url(#gB)"/><use class="lgW" href="#lg-word"/></svg>
+        <div class="eb" id="h_eb"></div>
+        <h1 id="h_h1"></h1>
+        <p class="lead" id="h_lead"></p>
+        <div class="cta-row"><button class="btn light" type="button" data-open id="h_c1"></button><button class="btn line" type="button" id="h_c2" data-go="system"></button></div>
+        <p class="hint" id="h_hint"></p>
+      </div>
+      <div class="frame rv">
+        <div class="pic"><img src="img/lms_grad.webp" alt="" width="714" height="1293"></div>
+        <img class="stk s1" src="img/cap.webp" alt="" width="380" height="257"><img class="stk s2" src="img/atom.webp" alt="" width="271" height="277"><img class="stk s3" src="img/bookpencil.webp" alt="" width="380" height="256">
+        <div class="float"><b><i class="dot"></i><span id="f_t" style="color:inherit;font-size:inherit"></span></b><span id="f_s"></span></div>
+      </div>
+    </div>
+    <div class="strip"><div class="wrap" id="strip"></div></div>
+  </section>
+
+  <!-- marquee -->
+  <div class="mq" id="mqwrap" aria-hidden="true"><div class="mq-track" id="mq1"></div><div class="mq-track rev" id="mq2"></div></div>
+
+  <!-- 2-3 manifesto -->
+  <section class="sec manifesto" id="manifesto">
+    <img class="sk" style="--sp:.12;--r:-8deg;inset-inline-end:3%;top:8%;width:120px" src="img/atom.webp" alt="" width="271" height="277">
+    <img class="sk" style="--sp:-.1;--r:10deg;inset-inline-start:2%;bottom:4%;width:110px" src="img/notebook.webp" alt="" width="380" height="379">
+    <img class="sk" style="--sp:.18;--r:14deg;inset-inline-end:1%;top:50%;width:46px" src="img/apple.webp" alt="" width="149" height="174">
+    <div class="wrap">
+      <div class="eb rv" id="m_eb"></div>
+      <p class="big rv" id="m_big" style="margin-top:30px"></p>
+      <div class="three rv" id="m_three"></div>
+    </div>
+  </section>
+
+  <!-- complete system -->
+  <section class="sec dark sys" id="system">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="sy_eb"></div><h2 class="h2" id="sy_h"></h2><p class="lead" id="sy_l"></p><p id="pilotScope" class="contact-note"></p></div>
+      <div class="stabs" id="stabs" role="tablist"></div>
+      <div class="sgrid">
+        <div class="sleft"><div class="slist" id="slist"></div><div class="sdet" id="sdet" aria-live="polite"></div></div>
+        <div class="sview"><div class="scr" id="scr"><div class="scr-top"><i></i><i></i><i></i><span id="scr_t"></span></div><div class="scr-b" id="scr_b"></div></div><p class="scap" id="scap"></p></div>
+      </div>
+      <div class="plan"><span class="plbl" id="pl_l"></span><div class="plch" id="pl_c"></div></div>
+      <div class="fctl"><button class="btn line" type="button" id="sy_play" aria-pressed="true"></button></div>
+    </div>
+  </section>
+
+  <!-- flow -->
+  <section class="sec dark alt flow" id="flow">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="fl_eb"></div><h2 class="h2" id="fl_h"></h2><p class="lead" id="fl_l"></p></div>
+      <ol class="fl" id="fl"></ol>
+      <div class="floop" aria-hidden="true"><span id="fl_loop"></span></div>
+      <div class="fdet" id="fdet" aria-live="polite"></div>
+      <div class="fctl"><button class="btn line" type="button" id="fl_play" aria-pressed="true"></button></div>
+    </div>
+  </section>
+
+  <!-- 4 ecosystem -->
+  <section class="sec" id="ecosystem" style="padding-top:30px">
+    <img class="sk" style="--sp:.14;--r:12deg;inset-inline-end:2%;top:6%;width:64px" src="img/ruler.webp" alt="" width="163" height="274">
+    <img class="sk" style="--sp:-.08;--r:-14deg;inset-inline-start:1%;top:34%;width:56px" src="img/testtube.webp" alt="" width="120" height="186">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="p_eb"></div><h2 class="h2" id="p_h"></h2></div>
+      <div class="pillars rv" id="pillars"></div>
+    </div>
+  </section>
+
+  <!-- roles -->
+  <section class="sec dark roles" id="roles">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="ro_eb"></div><h2 class="h2" id="ro_h"></h2></div>
+      <div class="rgrid rv" id="rgrid"></div>
+    </div>
+  </section>
+
+  <!-- faces -->
+  <section class="sec faces" id="faces">
+    <img class="sk" style="--sp:.16;--r:-10deg;inset-inline-start:3%;top:6%;width:110px" src="img/cap.webp" alt="" width="380" height="257">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="fc_eb"></div><h2 class="h2" id="fc_h"></h2><p class="lead" id="fc_l"></p></div>
+      <div class="fcs">
+        <figure class="fc" data-s="-.06"><img src="img/girl.webp" alt="" width="531" height="705" loading="lazy"><i class="ring"></i></figure>
+        <figure class="fc" data-s=".07"><img src="img/kids2.webp" alt="" width="860" height="936" loading="lazy"><i class="ring"></i></figure>
+        <figure class="fc" data-s="-.1"><img src="img/boy.webp" alt="" width="559" height="779" loading="lazy"><i class="ring"></i></figure>
+        <figure class="fc" data-s=".05"><img src="img/kids3.webp" alt="" width="860" height="640" loading="lazy"><i class="ring"></i></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 day -->
+  <section class="sec dark alt day" id="day">
+    <div class="bg" id="dbg" aria-hidden="true"><img src="img/lms_dark.webp" alt=""><img src="img/lms_classroom.webp" alt=""><img src="img/lms_headset.webp" alt=""><img src="img/lms_vr.webp" alt=""><img src="img/lms_wall.webp" alt=""></div>
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="d_eb"></div><h2 class="h2" id="d_h"></h2></div>
+      <div class="dgrid">
+        <div>
+          <div class="clock" id="d_clock"></div>
+          <h3 id="d_title"></h3>
+          <p class="desc" id="d_desc"></p>
+        </div>
+        <div class="pcard" aria-live="polite">
+          <div class="top"><span id="pc_l"></span><span id="pc_t"></span></div>
+          <div class="nt" id="pc_n"></div>
+          <div class="ghost"></div>
+        </div>
+      </div>
+      <div class="wavewrap"><div class="wave" id="wave">
+        <svg class="wsvg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="wclip"><rect id="wrect" x="0" y="0" width="0" height="120"/></clipPath></defs><path class="wb" id="wpath" d=""/><path class="wl" id="wlive" d="" clip-path="url(#wclip)"/></svg>
+        <div class="wdots" id="wdots"></div><i class="worb" id="worb"></i>
+        <div class="wlabels" id="moments" role="tablist"></div>
+      </div></div>
+      <div class="dctl"><button class="btn line" type="button" id="dplay"></button><span class="note" id="d_note"></span></div>
+    </div>
+  </section>
+
+  <!-- 6 trust -->
+  <section class="sec dark" id="trust">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="t_eb"></div><h2 class="h2" id="t_h"></h2></div>
+      <div class="principles rv" id="principles"></div>
+      <p class="quote rv" id="t_q"></p>
+    </div>
+  </section>
+
+  <!-- 7 proof -->
+  <section class="sec" id="proof">
+    <img class="sk" style="--sp:.12;--r:8deg;inset-inline-end:2%;top:5%;width:66px" src="img/triangle.webp" alt="" width="197" height="302">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="pf_eb"></div><h2 class="h2" id="pf_h"></h2></div>
+      <div class="targets rv" id="targets"></div>
+      <p class="pnote" id="pf_n"></p>
+    </div>
+  </section>
+
+  <!-- 8 standard -->
+  <section class="sec" id="standard" style="padding-top:0">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="s_eb"></div><h2 class="h2" id="s_h"></h2></div>
+      <div class="steps rv" id="steps"></div>
+    </div>
+  </section>
+
+  <!-- 9 programmes -->
+  <section class="sec" id="programmes" style="background:var(--white)">
+    <img class="sk" style="--sp:.1;--r:-6deg;inset-inline-end:2%;top:4%;width:120px" src="img/backpack.webp" alt="" width="329" height="329">
+    <img class="sk" style="--sp:-.08;--r:0deg;inset-inline-start:0;top:0;width:min(300px,34vw)" src="img/bunting.webp" alt="" width="380" height="181">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="g_eb"></div><h2 class="h2" id="g_h"></h2></div>
+      <div class="progs rv" id="progs"></div>
+    </div>
+  </section>
+
+  <!-- 10 faq -->
+  <!-- downloads (filled from api/files.php when hosted) -->
+  <section class="sec" id="downloads" hidden>
+    <div class="wrap">
+      <div class="head rv in"><div class="eb" id="dw_eb"></div><h2 class="h2" id="dw_h"></h2></div>
+      <div class="dwgrid" id="dw_g"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <img class="sk" style="--sp:.12;--r:10deg;inset-inline-end:3%;top:12%;width:70px" src="img/magnifier.webp" alt="" width="178" height="373">
+    <img class="sk" style="--sp:-.1;--r:-12deg;inset-inline-end:12%;bottom:6%;width:100px" src="img/palette.webp" alt="" width="249" height="220">
+    <div class="wrap">
+      <div class="head rv"><div class="eb" id="q_eb"></div><h2 class="h2" id="q_h"></h2></div>
+      <div class="faq rv" id="faqlist"></div>
+    </div>
+  </section>
+
+  <!-- tagline band -->
+  <div class="tband" id="tband" aria-hidden="true"><div class="ttrack" id="ttrack"></div></div>
+
+  <!-- 11 final -->
+  <section class="sec dark final" id="final">
+    <svg class="wm" viewBox="40 288 431 503" aria-hidden="true"><use href="#lg-mark"/></svg>
+    <div class="wrap">
+      <div class="eb" id="c_eb"></div>
+      <h2 id="c_h"></h2>
+      <p class="lead" id="c_l"></p>
+      <div class="cta-row" style="justify-content:center"><button class="btn light" type="button" data-open id="c_b0"></button><button class="btn line" type="button" id="c_b1" data-go="system"></button></div>
+      <p class="hint" id="c_hint"></p>
+      <p class="mailline"><span id="c_m"></span> <a href="mailto:info@scolairly.com" id="c_addr">info@scolairly.com</a> <button class="cp" type="button" id="c_cp"></button></p>
+      <p class="copied" id="c_ok" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg" aria-labelledby="dl_t">
+  <div class="dl-box">
+    <button type="button" class="dl-x" id="dl_x"></button>
+    <div id="dl_v1">
+      <div class="eb" id="dl_eb"></div>
+      <h2 id="dl_t"></h2>
+      <p class="dl-sub" id="dl_s"></p>
+      <form id="dl_f" novalidate></form>
+    </div>
+    <div id="dl_v2" hidden>
+      <div class="eb" id="dl_eb2"></div>
+      <h2 id="dl_t2"></h2>
+      <p class="dl-sub" id="dl_s2"></p>
+      <pre class="dl-pre" id="dl_pre" tabindex="0"></pre>
+      <div class="dl-act"><a class="btn solid" id="dl_mail" href="mailto:info@scolairly.com"></a><button class="btn dline" type="button" id="dl_copy"></button><button class="btn dline" type="button" id="dl_back"></button></div>
+      <p class="dl-ok" id="dl_ok" aria-live="polite"></p>
+    </div>
+  </div>
+</dialog>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Scolair"><svg class="lockup" height="26" viewBox="40 288 1830 503" role="img" aria-label="Scolair"><use href="#lg-mark"/><use href="#lg-word"/></svg></a>
+    <a href="#trust" id="footerTrust"></a>
+    <a href="#final" id="footerContact"></a>
+    <span id="f_tag"></span>
+  </div>
+</footer>
+</div>
+
+<script src="api/content.php"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var app = $("app"), lang = /[?&]lang=en\b/.test(location.search) ? "en" : "ar";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var T = function (o) { return o[lang]; };
+
+  /* copy */
+  var C = {
+    nav: [["system", { en: "The full system", ar: "النظام كاملًا" }], ["flow", { en: "How it flows", ar: "كيف يتدفق" }], ["ecosystem", { en: "Ecosystem", ar: "المنظومة" }], ["day", { en: "The day", ar: "يوم الطالب" }], ["trust", { en: "Trust", ar: "الثقة" }], ["programmes", { en: "Programmes", ar: "البرامج" }], ["faq", { en: "Questions", ar: "أسئلة" }]],
+    navcta: { en: "Request a demo", ar: "اطلب عرضًا" },
+    h_eb: { en: "Smart Interactive LMS · Complete platform", ar: "التعلّم التفاعلي الذكي · منصة متكاملة" },
+    h_h1: { en: "One integrated LMS for <em>the whole school.</em>", ar: "نظام تعلّم <em>متكامل</em> يجمع المدرسة كلها." },
+    h_lead: { en: "Learning, assessment, AI assistance, administration, collaboration, student care, transport and family communication. Fourteen modules, one platform.", ar: "التعلّم والتقييم والمساعد الذكي والإدارة والتعاون ورعاية الطلاب والنقل وتواصل الأسرة. أربع عشرة وحدة في منصة واحدة." },
+    h_c1: { en: "Request a private walkthrough", ar: "اطلب عرضًا خاصًا" },
+    h_c2: { en: "Explore the modules", ar: "استعرض الوحدات" },
+    f_t: { en: "07:21 · Boarding confirmed", ar: "07:21 · تم تأكيد الصعود" },
+    f_s: { en: "Sample parent update", ar: "نموذج إشعار لولي الأمر" },
+    strip: [
+      [{ en: "14 modules", ar: "14 وحدة" }, { en: "One integrated platform", ar: "منصة واحدة متكاملة" }],
+      [{ en: "Web · Mobile · Desktop", ar: "ويب · جوال · سطح المكتب" }, { en: "One experience on every device", ar: "تجربة واحدة على كل جهاز" }],
+      [{ en: "AR · EN", ar: "عربي · English" }, { en: "Arabic and English from day one", ar: "اللغتان من اليوم الأول" }],
+      [{ en: "Age 4 to university", ar: "من 4 سنوات إلى الجامعة" }, { en: "Adapts to every learner", ar: "يتكيّف مع كل متعلّم" }]
+    ],
+    m_eb: { en: "Our point of view", ar: "رؤيتنا" },
+    m_big: { en: "Most e-learning is functional. We built ours to be <em>inspiring</em>, personal and quietly efficient.", ar: "أغلب التعلّم الإلكتروني يؤدي وظيفته. بنينا منصتنا لتكون <em>ملهمة</em> وشخصية وفعّالة بهدوء." },
+    m_three: [
+      { en: "Every lesson adapts to the learner's own performance.", ar: "كل درس يتكيّف مع أداء المتعلّم نفسه." },
+      { en: "Teachers and administrators spend less time on manual data.", ar: "يقضي المعلمون والإداريون وقتًا أقل في إدارة البيانات يدويًا." },
+      { en: "Insights arrive before problems have time to grow.", ar: "تصلك المؤشرات قبل أن تكبر المشكلات." }
+    ],
+    p_eb: { en: "The ecosystem", ar: "المنظومة" },
+    p_h: { en: "Four pillars. One <em>coordinated</em> journey.", ar: "أربعة أعمدة. رحلة <em>واحدة</em> منسّقة." },
+    pillars: [
+      { t: { en: "Learning", ar: "التعلّم" }, v: "img", src: "img/lms_headset.webp",
+        d: { en: "Interactive lessons, an AI learning assistant, smart notes and adaptive assessment.", ar: "دروس تفاعلية ومساعد تعلّم ذكي وملاحظات ذكية وتقييم تكيّفي." },
+        l: [{ en: "AI assistant that explains, summarizes and builds quizzes", ar: "مساعد ذكي يشرح ويلخّص ويُعدّ الاختبارات" }, { en: "Adaptive testing that adjusts difficulty", ar: "اختبارات تكيّفية تضبط الصعوبة" }, { en: "Smart notes linked to lessons", ar: "ملاحظات ذكية مرتبطة بالدروس" }] },
+      { t: { en: "Care", ar: "الرعاية" }, v: "pulse",
+        d: { en: "Individual care plans, therapy tracking and authorized health information in one profile.", ar: "خطط رعاية فردية ومتابعة العلاج ومعلومات صحية مصرّح بها في ملف واحد." },
+        l: [{ en: "Therapy goals, exercises and session notes", ar: "أهداف العلاج والتمارين وملاحظات الجلسات" }, { en: "Wearable readings for authorized staff", ar: "قراءات الأجهزة للكوادر المصرّح لها" }, { en: "Cameras in approved areas only", ar: "كاميرات في المناطق المعتمدة فقط" }] },
+      { t: { en: "Transport", ar: "النقل" }, v: "route",
+        d: { en: "Live bus location, recorded boarding and handover, and a parent notification at every step.", ar: "موقع الحافلة مباشرة، وتسجيل الصعود والتسليم، وإشعار لولي الأمر في كل خطوة." },
+        l: [{ en: "Live tracking with estimated arrival", ar: "تتبّع مباشر مع الوصول المتوقع" }, { en: "Boarding and drop-off records", ar: "سجلات الصعود والنزول" }, { en: "Pickup requests with school verification", ar: "طلبات استلام بعد تحقق المدرسة" }] },
+      { t: { en: "Family", ar: "الأسرة" }, v: "img", src: "img/lms_wall.webp",
+        d: { en: "A calm dashboard for parents: progress, activities, transport status and approved updates.", ar: "لوحة هادئة لأولياء الأمور: التقدّم والأنشطة وحالة النقل والتحديثات المعتمدة." },
+        l: [{ en: "Learning progress and daily activities", ar: "تقدّم التعلّم والأنشطة اليومية" }, { en: "Notifications for key moments", ar: "إشعارات لأهم اللحظات" }, { en: "Reports in a simplified, approved view", ar: "تقارير بعرض مبسّط ومعتمد" }] }
+    ],
+    d_eb: { en: "The student's day", ar: "يوم الطالب" },
+    d_h: { en: "Seven moments. <em>One record.</em>", ar: "سبع لحظات. <em>سجلّ واحد.</em>" },
+    d_note: { en: "Tap any time to view that moment. Times and messages are illustrative.", ar: "اضغط على أي وقت لعرض تلك اللحظة. الأوقات والرسائل توضيحية." },
+    pc_l: { en: "Parent app", ar: "تطبيق ولي الأمر" },
+    pc_n: { en: "Update", ar: "تحديث" },
+    play: { en: "▶ Auto-play the student's day", ar: "▶ تشغيل تلقائي ليوم الطالب" }, pause: { en: "⏸ Pause auto-play", ar: "⏸ إيقاف التشغيل التلقائي" },
+    moments: [
+      { tm: "07:10", img: 0, t: { en: "Home to school", ar: "من البيت إلى المدرسة" }, d: { en: "Routes are prepared, boarding is confirmed by the bus supervisor and the parent is notified.", ar: "تُجهَّز المسارات، ويؤكد مشرف الحافلة الصعود، ويصل الإشعار إلى ولي الأمر." }, p: { en: "Boarding confirmed. The bus is on its way to school.", ar: "تم تأكيد الصعود. الحافلة في طريقها إلى المدرسة." } },
+      { tm: "07:45", img: 1, t: { en: "Arrival and attendance", ar: "الوصول والحضور" }, d: { en: "Arrival and handover to designated staff are recorded, and attendance is marked.", ar: "يُسجَّل الوصول والتسليم للكادر المختص ويُرصد الحضور." }, p: { en: "Arrived at school. Handover to designated staff recorded.", ar: "وصل إلى المدرسة. تم تسجيل التسليم للكادر المختص." } },
+      { tm: "09:00", img: 2, t: { en: "Classroom learning", ar: "التعلّم في الصف" }, d: { en: "Interactive lessons are delivered, responses are saved and teachers adjust activities.", ar: "تُقدَّم دروس تفاعلية وتُحفظ الإجابات ويعدّل المعلم الأنشطة عند الحاجة." }, p: { en: "Today's activity is complete. Responses saved for the teacher.", ar: "اكتمل نشاط اليوم. حُفظت الإجابات لمراجعة المعلم." } },
+      { tm: "11:00", img: 3, t: { en: "Therapy and development", ar: "العلاج والتطوير" }, d: { en: "Specialists review approved plans, deliver exercises and record observations.", ar: "يراجع المختصون الخطط المعتمدة ويقدّمون التمارين ويسجّلون الملاحظات." }, p: { en: "Therapy summary available. Only approved information is shown.", ar: "ملخص الجلسة متاح. تُعرض المعلومات المعتمدة فقط." } },
+      { tm: "12:30", img: 3, t: { en: "Physical activity", ar: "النشاط البدني" }, d: { en: "Authorized staff review wearable readings, supervision and configured alerts, following school procedures.", ar: "يراجع المصرّح لهم قراءات الأجهزة والإشراف والتنبيهات المضبوطة وفق إجراءات المدرسة." }, p: { en: "Approved activity summary added to today's report.", ar: "أُضيف ملخص النشاط المعتمد إلى تقرير اليوم." } },
+      { tm: "14:20", img: 1, t: { en: "School to home", ar: "من المدرسة إلى البيت" }, d: { en: "Boarding is confirmed, the parent is notified and the bus is tracked to the final handover.", ar: "يُؤكَّد الصعود ويُبلَّغ ولي الأمر وتُتابَع الحافلة حتى التسليم النهائي." }, p: { en: "Left school. Boarding confirmed. Track the bus live.", ar: "غادر المدرسة. تم تأكيد الصعود. تتبّع الحافلة مباشرة." } },
+      { tm: "14:58", img: 4, t: { en: "Parent update", ar: "تحديث ولي الأمر" }, d: { en: "The receiving person is confirmed and the day's approved report is ready.", ar: "يُؤكَّد المستلم ويصبح تقرير اليوم المعتمد جاهزًا." }, p: { en: "Dropped off. Receiving person confirmed. Today's report is ready.", ar: "تم التوصيل. تأكيد المستلم. تقرير اليوم جاهز." } }
+    ],
+    t_eb: { en: "Trust", ar: "الثقة" },
+    t_h: { en: "Built for <em>children's data.</em>", ar: "مصمَّمة لحماية <em>بيانات الأطفال.</em>" },
+    t_q: { en: "Technology supports professionals. It never replaces them.", ar: "التقنية تدعم المختصين ولا تحلّ محلّهم." },
+    principles: [
+      [{ en: "Consent and access", ar: "الموافقة والصلاحيات" }, { en: "Parental or guardian consent where required, with role-based access and restricted sensitive information.", ar: "موافقة ولي الأمر عند الحاجة، مع صلاحيات حسب الدور وتقييد المعلومات الحساسة." }],
+      [{ en: "Accountability", ar: "المساءلة" }, { en: "Access logs, retention policies and incident response procedures.", ar: "سجلات وصول وسياسات احتفاظ وإجراءات للاستجابة للحوادث." }],
+      [{ en: "Cameras with limits", ar: "كاميرات بحدود واضحة" }, { en: "Only in approved areas, never in private spaces. Expressions and movement are never treated as proof of emotion or condition.", ar: "في المناطق المعتمدة فقط، وليس في الأماكن الخاصة. لا تُعدّ تعابير الوجه والحركة دليلًا على المشاعر أو الحالة الصحية." }],
+      [{ en: "AI that assists", ar: "ذكاء اصطناعي مساعد" }, { en: "Insights are labelled as AI-assisted, reviewed by qualified staff, and tested for reliability and bias.", ar: "تُوسَم الرؤى بأنها بمساعدة الذكاء الاصطناعي، ويراجعها مختصون مؤهلون، وتُختبر موثوقيتها وانحيازها." }],
+      [{ en: "Health and medication", ar: "الصحة والدواء" }, { en: "Readings support monitoring only. The platform never prescribes, changes or approves medication.", ar: "القراءات للمتابعة فقط. لا تصف المنصة الدواء ولا تغيّره ولا تعتمده." }],
+      [{ en: "Verified handover", ar: "تسليم موثّق" }, { en: "A parent request never releases a child on its own. The school verifies, and a digital record never replaces physical safeguarding.", ar: "طلب ولي الأمر وحده لا يسمح بخروج الطفل. تتحقق المدرسة، والسجل الرقمي لا يغني عن الحماية الفعلية." }]
+    ],
+    pf_eb: { en: "Our standard", ar: "معيارنا" },
+    pf_h: { en: "What we <em>hold ourselves to.</em>", ar: "ما <em>نلتزم به.</em>" },
+    pf_n: { en: "Pilot-phase targets. Results will be reported here as the pilot completes.", ar: "أهداف المرحلة التجريبية. ستُعرض النتائج هنا عند اكتمالها." },
+    targets: [
+      { n: 60, s: "%", pre: "≥ ", l: { en: "Daily active user rate", ar: "معدل المستخدمين النشطين يوميًا" } },
+      { n: 80, s: "%", pre: "≥ ", l: { en: "Correct and relevant AI responses", ar: "إجابات الذكاء الاصطناعي الصحيحة والمناسبة" } },
+      { n: 99.5, s: "%", pre: "", dec: 1, l: { en: "Platform availability", ar: "توافر المنصة" } },
+      { n: 300, s: " ms", pre: "≤ ", l: { en: "Average page and API response time", ar: "متوسط زمن استجابة الصفحات وواجهات البرمجة" } },
+      { n: 85, s: "%", pre: "≥ ", l: { en: "Positive satisfaction in user surveys", ar: "رضا إيجابي في استبيانات المستخدمين" } }
+    ],
+    s_eb: { en: "The Scolair standard", ar: "معيار سكولير" },
+    s_h: { en: "A <em>partnership,</em> not a download.", ar: "<em>شراكة،</em> وليست برنامجًا تُنزّله." },
+    steps: [
+      [{ en: "Set up", ar: "التأسيس" }, { en: "Student registration, staff accounts and roles. The Smart Organizational Builder proposes a structure, and the school approves every permission.", ar: "تسجيل الطلاب وحسابات الكوادر والأدوار. يقترح المنشئ التنظيمي الذكي هيكلًا، وتعتمد المدرسة كل صلاحية." }],
+      [{ en: "Train", ar: "التدريب" }, { en: "Administrator, teacher, therapist and transportation staff training, plus parent onboarding.", ar: "تدريب المسؤولين والمعلمين والمعالجين وفريق النقل، مع تهيئة أولياء الأمور." }],
+      [{ en: "Launch", ar: "الإطلاق" }, { en: "A phased rollout from learning to care to transport and family services, validated with real use.", ar: "إطلاق على مراحل من التعلّم إلى الرعاية ثم النقل وخدمات الأسرة، مع التحقق من الاستخدام الفعلي." }],
+      [{ en: "Support", ar: "الدعم" }, { en: "Support by email, chat and phone, remote troubleshooting, user guides and service announcements. Hours and response times are set in the service agreement.", ar: "دعم بالبريد والمحادثة والهاتف، وحل المشكلات عن بُعد، وأدلة استخدام وإعلانات الخدمة. تُحدَّد الساعات وأزمنة الاستجابة في اتفاقية الخدمة." }]
+    ],
+    g_eb: { en: "Programmes", ar: "البرامج" },
+    g_h: { en: "Choose the scope. <em>We shape the rest.</em>", ar: "اختر النطاق. <em>ونُكمل الباقي.</em>" },
+    price: { en: "Pricing on request", ar: "السعر عند الطلب" },
+    discuss: { en: "Discuss this programme", ar: "ناقش هذا البرنامج" },
+    progs: [
+      { t: { en: "Learning", ar: "التعلّم" }, inc: { en: "Smart Interactive LMS", ar: "منصة التعلّم التفاعلي الذكي" }, l: [{ en: "Interactive lessons and content", ar: "دروس ومحتوى تفاعلي" }, { en: "AI learning assistant and smart notes", ar: "مساعد التعلّم الذكي والملاحظات الذكية" }, { en: "Adaptive assessment and analytics", ar: "تقييم تكيّفي وتحليلات" }, { en: "Arabic and English interfaces", ar: "واجهات بالعربية والإنجليزية" }] },
+      { t: { en: "Learning and Care", ar: "التعلّم والرعاية" }, inc: { en: "Everything in Learning, plus", ar: "كل ما في برنامج التعلّم، مع" }, l: [{ en: "Student care and therapy plans", ar: "خطط الرعاية والعلاج" }, { en: "Intelligent student profile", ar: "الملف الذكي للطالب" }, { en: "Approved health monitoring", ar: "متابعة صحية معتمدة" }, { en: "Supervised camera areas", ar: "مناطق مراقبة مشرف عليها" }] },
+      { t: { en: "Complete Ecosystem", ar: "المنظومة الكاملة" }, feat: true, tag: { en: "Most complete", ar: "الأشمل" }, inc: { en: "Everything above, plus", ar: "كل ما سبق، مع" }, l: [{ en: "School transportation and live tracking", ar: "النقل المدرسي والتتبع المباشر" }, { en: "Parent and family services", ar: "خدمات الأسرة وأولياء الأمور" }, { en: "Intelligent personalization", ar: "التخصيص الذكي" }, { en: "Technical support and training", ar: "الدعم الفني والتدريب" }] }
+    ],
+    q_eb: { en: "Questions", ar: "أسئلة" },
+    q_h: { en: "Before <em>you decide.</em>", ar: "قبل <em>أن تقرّر.</em>" },
+    faq: [
+      [{ en: "Does it work in Arabic and English?", ar: "هل تعمل بالعربية والإنجليزية؟" }, { en: "Yes. Both interfaces are supported from day one, and institutions can switch between them.", ar: "نعم. الواجهتان مدعومتان من اليوم الأول ويمكن للمؤسسة التبديل بينهما." }],
+      [{ en: "Does it replace teachers or medical staff?", ar: "هل تحلّ محلّ المعلمين أو الكوادر الطبية؟" }, { en: "No. AI insights are labelled, reviewed by qualified staff and used to support professional decisions.", ar: "لا. تُوسَم رؤى الذكاء الاصطناعي ويراجعها مختصون مؤهلون وتُستخدم لدعم القرارات المهنية." }],
+      [{ en: "Which devices does it run on?", ar: "على أي أجهزة تعمل؟" }, { en: "Web, mobile and desktop.", ar: "على الويب والجوال وسطح المكتب." }],
+      [{ en: "Can it connect to our existing school systems?", ar: "هل تتصل بأنظمة مدرستنا الحالية؟" }, { en: "The platform integrates with existing school systems through APIs.", ar: "تتكامل المنصة مع أنظمة المدرسة القائمة عبر واجهات برمجية (APIs)." }],
+      [{ en: "Who sees a student's information?", ar: "من يرى معلومات الطالب؟" }, { en: "Only authorized roles. Access is role-based, sensitive information is restricted and access is logged.", ar: "الأدوار المصرّح لها فقط. الصلاحيات حسب الدور، والمعلومات الحساسة مقيّدة، ويُسجَّل الوصول." }],
+      [{ en: "Where is the platform in its development?", ar: "أين وصل تطوير المنصة؟" }, { en: "The product roadmap runs 12 to 15 months, from architecture to public launch. A pilot in one or two institutions comes in months 11 to 12.", ar: "تمتد خريطة الطريق من 12 إلى 15 شهرًا، من البنية التقنية إلى الإطلاق العام، مع تجربة في مؤسسة أو مؤسستين في الشهرين 11 و12." }]
+    ],
+    c_eb: { en: "Private walkthrough", ar: "عرض خاص" },
+    c_h: { en: "Let us show you the school day, <em>your way.</em>", ar: "دعنا نُريك اليوم المدرسي <em>بطريقتك.</em>" },
+    c_l: { en: "Visit our website to request a walkthrough, or copy a ready-made request.", ar: "زر موقعنا لطلب العرض، أو انسخ رسالة جاهزة." },
+    c_msg: { en: "Hello Scolair, we would like a private walkthrough of the Smart School Ecosystem for our school. School: ____  Role: ____  Preferred time: ____", ar: "مرحبًا سكولير، نود عرضًا خاصًا لمنظومة المدرسة الذكية لمدرستنا. المدرسة: ____  المنصب: ____  الوقت المفضل: ____" },
+    c_b1: { en: "Explore the modules", ar: "استعرض وحدات النظام" },
+    c_hint: { en: "Opens a short form to request a demo that fits your school.", ar: "يفتح نموذجًا قصيرًا لطلب عرض يناسب مدرستك." },
+    h_hint: { en: "“Request” opens a short form. “Explore” scrolls to the modules.", ar: "«اطلب» يفتح نموذجًا قصيرًا، و«استعرض» ينقلك إلى وحدات النظام." },
+    c_b2: { en: "Copy a ready request", ar: "انسخ رسالة جاهزة" },
+    c_ok: { en: "Copied. Paste it wherever you contact us.", ar: "تم النسخ. الصقها حيث تتواصل معنا." },
+    f_tag: { en: "Learn, smart, share the magic", ar: "تعلّم بذكاء، وشارك السحر" }
+  };
+  C.flow = {
+    eb: { en: "How learning flows", ar: "كيف يتدفق التعلّم" },
+    h: { en: "From first login to <em>the next better lesson.</em>", ar: "من أول دخول إلى <em>الدرس التالي الأفضل.</em>" },
+    l: { en: "Every step feeds the next one. What a learner does today shapes what the platform offers tomorrow.", ar: "كل خطوة تغذّي التي تليها. ما يفعله المتعلّم اليوم يحدّد ما تقدّمه المنصة غدًا." },
+    loop: { en: "Adaptive loop: results reshape the next lesson", ar: "حلقة التكيّف: النتائج تعيد تشكيل الدرس التالي" },
+    pause: { en: "⏸ Pause auto-play", ar: "⏸ إيقاف التشغيل التلقائي" }, play: { en: "▶ Auto-play the flow", ar: "▶ تشغيل تلقائي للمراحل" },
+    nodes: [
+      { t: { en: "Access", ar: "الدخول" }, s: { en: "Accounts and roles", ar: "حسابات وأدوار" }, d: { en: "Accounts open with email, phone or institutional ID. Roles cover student, teacher, parent, administrator and institution manager, and one person can hold more than one role.", ar: "تُفتح الحسابات بالبريد أو الهاتف أو رقم المؤسسة. تشمل الأدوار الطالب والمعلم وولي الأمر والمسؤول ومدير المؤسسة، ويمكن للشخص الواحد أن يجمع أكثر من دور." } },
+      { t: { en: "Learn", ar: "التعلّم" }, s: { en: "Courses and paths", ar: "مقررات ومسارات" }, d: { en: "Courses, units and lessons mix video, text, quizzes, interactive modules and PDFs. Lessons unlock as the learner progresses.", ar: "تجمع المقررات والوحدات والدروس بين الفيديو والنص والاختبارات والوحدات التفاعلية وملفات PDF، وتُفتح الدروس مع تقدّم المتعلّم." } },
+      { t: { en: "Assist", ar: "المساعدة" }, s: { en: "AI learning assistant", ar: "مساعد التعلّم الذكي" }, d: { en: "A personal assistant explains hard ideas with simple examples, summarizes lessons, builds quiz questions and works by text or voice. Smart notes link to the lesson.", ar: "مساعد شخصي يشرح الأفكار الصعبة بأمثلة بسيطة ويلخّص الدروس ويُعدّ أسئلة الاختبار، ويعمل بالنص أو الصوت. وترتبط الملاحظات الذكية بالدرس." } },
+      { t: { en: "Assess", ar: "التقييم" }, s: { en: "Adaptive testing", ar: "اختبارات تكيّفية" }, d: { en: "A question bank with several formats. Difficulty adjusts to the answers, AI helps grade written responses, and feedback arrives with progress visuals.", ar: "بنك أسئلة بصيغ متعددة. تتغيّر الصعوبة حسب الإجابات، ويساعد الذكاء الاصطناعي في تصحيح الإجابات الكتابية، وتصل التغذية الراجعة مع عرض مرئي للتقدّم." } },
+      { t: { en: "Insight", ar: "الرؤية" }, s: { en: "Predictive analytics", ar: "تحليلات تنبؤية" }, d: { en: "The platform flags students at risk from activity and results, predicts engagement drop-offs and suggests interventions on live dashboards.", ar: "تُنبّه المنصة إلى الطلاب المعرّضين للخطر من النشاط والنتائج، وتتوقع تراجع التفاعل، وتقترح تدخلات على لوحات مباشرة." } },
+      { t: { en: "Act", ar: "القرار" }, s: { en: "Teacher, parent, school", ar: "المعلم وولي الأمر والمدرسة" }, d: { en: "Teachers adjust lessons, parents see where their child excels or needs help, and institutions plan staffing and schedules from the data.", ar: "يعدّل المعلمون دروسهم، ويرى أولياء الأمور أين يتفوق ابنهم وأين يحتاج مساعدة، وتخطط المؤسسات الكوادر والجداول من البيانات." } }
+    ]
+  };
+  var ICONS = ["M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21a8 8 0 0 1 16 0", "M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3zM21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z", "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z", "M9 6h11M9 12h11M9 18h11M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17", "M4 20V10M10 20V4M16 20v-8M22 20H2", "M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a2.5 2.5 0 1 0 0-5M2 20a6 6 0 0 1 12 0M15 14.5a5 5 0 0 1 7 5"];
+  var IC = {
+    adapt: "M4 8h9M17 8h3M4 16h3M11 16h9M15 5v6M9 13v6",
+    auto: "M20 12a8 8 0 1 1-2.3-5.7M20 4v4h-4",
+    eye: "M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
+    shield: "M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6zM8.5 12l2.5 2.5 4.5-5",
+    clip: "M9 4h6v3H9zM7 5H5v16h14V5h-2M9 12h6M9 16h4",
+    cam: "M3 7h4l2-3h6l2 3h4v13H3zM12 10a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z",
+    spark: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z",
+    heart: "M12 21C6 16 3 13 3 9.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 2.5C21 13 18 16 12 21z",
+    usercheck: "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M16 11l2 2 4-4",
+    wrench: "M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z",
+    cap: "M2 9l10-5 10 5-10 5zM6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5M22 9v6",
+    rocket: "M5 15c-1 1-2 4-2 6 2 0 5-1 6-2M14 4c4 0 6 2 6 6-2 3-5 6-9 8l-5-5c2-4 5-7 8-9zM15 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0",
+    headset: "M4 14v-2a8 8 0 0 1 16 0v2M4 14h3v5H4zM17 14h3v5h-3zM20 19c0 2-3 3-6 3",
+    book: "M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3zM21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z",
+    cube: "M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5",
+    notes: "M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5",
+    test: "M9 6h11M9 12h11M9 18h11M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17",
+    bus: "M5 16V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10M5 16h14M5 11h14M7 16v3M17 16v3M8.5 13.5h.01M15.5 13.5h.01",
+    bell: "M6 17V11a6 6 0 0 1 12 0v6l2 2H4zM10 21a2 2 0 0 0 4 0",
+    chart: "M4 20V10M10 20V4M16 20v-8M22 20H2",
+    globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
+    chat: "M4 5h16v11H9l-5 4zM8 9h8M8 12h5",
+    dash: "M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"
+  };
+  function ico(n) { return '<svg class="dr" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="' + IC[n] + '"/></svg>'; }
+  var MQ = [["spark", { en: "AI learning assistant", ar: "مساعد التعلّم الذكي" }], ["bus", { en: "Live bus tracking", ar: "تتبّع الحافلة مباشرة" }], ["notes", { en: "Smart notes", ar: "ملاحظات ذكية" }], ["bell", { en: "Parent notifications", ar: "إشعارات ولي الأمر" }], ["test", { en: "Adaptive testing", ar: "اختبارات تكيّفية" }], ["heart", { en: "Care plans", ar: "خطط الرعاية" }], ["chart", { en: "Predictive analytics", ar: "تحليلات تنبؤية" }], ["globe", { en: "Arabic and English", ar: "عربي وإنجليزي" }], ["chat", { en: "Social learning wall", ar: "جدار التعلّم الاجتماعي" }], ["shield", { en: "Role-based access", ar: "صلاحيات حسب الدور" }], ["dash", { en: "Institution dashboard", ar: "لوحة المؤسسة" }], ["usercheck", { en: "Verified handover", ar: "تسليم موثّق" }]];
+  C.faces = {
+    eb: { en: "Children first", ar: "الطفل أولًا" },
+    h: { en: "Technology that stays <em>out of childhood's way.</em>", ar: "تقنية <em>لا تزاحم</em> الطفولة." },
+    l: { en: "The platform serves the lesson, the care team and the family. The child stays at the centre of every screen.", ar: "تخدم المنصة الدرس وفريق الرعاية والأسرة، ويبقى الطفل في مركز كل شاشة." }
+  };
+  C.tag = { en: ["LEARN", "SMART", "SHARE THE MAGIC"], ar: ["تعلّم", "بذكاء", "وشارك السحر"] };
+  C.icons = { m_three: ["adapt", "auto", "eye"], principles: ["shield", "clip", "cam", "spark", "heart", "usercheck"], steps: ["wrench", "cap", "rocket", "headset"], progs: ["book", "heart", "cube"] };
+  C.c_l = { en: "Fill in a short form and we will prepare your request, or write to us directly.", ar: "املأ نموذجًا قصيرًا ونجهّز لك الطلب، أو راسلنا مباشرة." };
+  C.c_b0 = { en: "Request a private walkthrough", ar: "اطلب عرضًا خاصًا" };
+  C.c_m = { en: "Write to us:", ar: "راسلنا على:" };
+  C.cp = { en: "Copy email", ar: "انسخ البريد" }; C.cpd = { en: "Email copied.", ar: "تم نسخ البريد." };
+  var MAILTO = "info@scolairly.com";
+  var FILES_ENDPOINT = "api/files.php";
+  var FORM_ENDPOINT = "api/contact.php"; /* Set to your form service URL when the page is hosted on your own site; the page then posts the request and confirms only when the service answers OK. */
+  C.form = {
+    eb: { en: "Private walkthrough", ar: "عرض خاص" },
+    t: { en: "Tell us about your school", ar: "حدّثنا عن مدرستك" },
+    s: { en: "A few details help us prepare a walkthrough that fits your school. Fields marked * are required.", ar: "بعض التفاصيل تساعدنا على تجهيز عرض يناسب مدرستك. الحقول المعلّمة بـ * مطلوبة." },
+    close: { en: "Close", ar: "إغلاق" },
+    f: [
+      { id: "name", l: { en: "Full name *", ar: "الاسم الكامل *" }, ac: "name", req: 1 },
+      { id: "org", l: { en: "School or institution *", ar: "المدرسة أو المؤسسة *" }, ac: "organization", req: 1 },
+      { id: "role", t: "select", l: { en: "Your role", ar: "منصبك" }, o: [[{ en: "School owner or manager", ar: "مالك أو مدير مدرسة" }], [{ en: "Principal or academic lead", ar: "مدير أكاديمي أو رئيس قسم" }], [{ en: "Teacher or trainer", ar: "معلم أو مدرّب" }], [{ en: "Parent", ar: "ولي أمر" }], [{ en: "Other", ar: "أخرى" }]] },
+      { id: "prog", t: "select", l: { en: "Programme of interest", ar: "البرنامج المهتم به" }, o: [[{ en: "Not decided yet", ar: "لم أقرر بعد" }], [{ en: "Learning", ar: "التعلّم" }], [{ en: "Learning and Care", ar: "التعلّم والرعاية" }], [{ en: "Complete Ecosystem", ar: "المنظومة الكاملة" }]] },
+      { id: "email", t: "email", l: { en: "Email *", ar: "البريد الإلكتروني *" }, ac: "email", req: 1, ltr: 1 },
+      { id: "phone", t: "tel", l: { en: "Phone (optional)", ar: "الهاتف (اختياري)" }, ac: "tel", ltr: 1 },
+      { id: "time", l: { en: "Preferred day and time", ar: "اليوم والوقت المفضلان" }, full: 1 },
+      { id: "msg", t: "textarea", l: { en: "Anything we should know (optional)", ar: "ملاحظات إضافية (اختياري)" }, full: 1 }
+    ],
+    consent: { en: "I agree that Scolair may contact me about this request.", ar: "أوافق على أن تتواصل سكولير معي بخصوص هذا الطلب." },
+    submit: { en: "Prepare my request", ar: "جهّز طلبي" },
+    needed: { en: "This field is required.", ar: "هذا الحقل مطلوب." }, bademail: { en: "Enter a valid email address.", ar: "أدخل بريدًا إلكترونيًا صحيحًا." }, needconsent: { en: "Please tick the box to continue.", ar: "يرجى تحديد المربع للمتابعة." },
+    eb2: { en: "Almost there", ar: "اقتربنا" },
+    t2: { en: "Your request is ready", ar: "طلبك جاهز" },
+    s2: { en: "It has not been sent yet. Open your email app and press send, or copy the text and write to ", ar: "لم يُرسل بعد. افتح تطبيق البريد واضغط إرسال، أو انسخ النص وراسلنا على " },
+    mail: { en: "Open in email app", ar: "افتح في تطبيق البريد" }, copy: { en: "Copy request", ar: "انسخ الطلب" }, back: { en: "Edit details", ar: "عدّل البيانات" },
+    copied: { en: "Copied. Paste it into an email to ", ar: "تم النسخ. الصقه في رسالة إلى " },
+    sending: { en: "Sending…", ar: "جارٍ الإرسال…" }, sent: { en: "Thank you. Your request was sent and we will contact you soon.", ar: "شكرًا لك. تم إرسال طلبك وسنتواصل معك قريبًا." }, failed: { en: "We could not send it from here. Use the email button or copy the text instead.", ar: "تعذّر الإرسال من هنا. استخدم زر البريد أو انسخ النص." },
+    subj: { en: "Private walkthrough request", ar: "طلب عرض خاص" },
+    labels: { en: { name: "Name", org: "School", role: "Role", prog: "Programme", email: "Email", phone: "Phone", time: "Preferred time", msg: "Notes" }, ar: { name: "الاسم", org: "المدرسة", role: "المنصب", prog: "البرنامج", email: "البريد", phone: "الهاتف", time: "الوقت المفضل", msg: "ملاحظات" } },
+    hello: { en: "Hello Scolair, we would like a private walkthrough of the Smart School Ecosystem.", ar: "مرحبًا سكولير، نود عرضًا خاصًا لمنظومة المدرسة الذكية." }
+  };
+
+  /* ===== complete system explorer ===== */
+  IC.users2 = "M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a2.5 2.5 0 1 0 0-5M2 20a6 6 0 0 1 12 0M15 14.5a5 5 0 0 1 7 5";
+  IC.lib = "M4 4h4v16H4zM10 4h4v16h-4zM16 6l4 1-3 13-4-1z";
+  IC.tree = "M12 3v5M12 8H5v4M12 8h7v4M5 12v4M19 12v4M3 16h4v4H3zM17 16h4v4h-4zM9 3h6v4H9z";
+  IC.bus2 = IC.bus; IC.house = "M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6";
+  IC.lock = "M6 11h12v9H6zM9 11V8a3 3 0 0 1 6 0v3";
+  IC.unlock = "M6 11h12v9H6zM9 11V8a3 3 0 0 1 5.5-1.6";
+  IC.check = "M5 12l4.5 4.5L19 7";
+  IC.wb = "M3 4h18v12H3zM8 20l4-4 4 4M7 11l3-3 3 3 3-3";
+  IC.video = "M3 6h12v12H3zM15 10l6-3v10l-6-3";
+  IC.file = "M6 3h9l4 4v14H6zM14 3v5h5";
+  function q(en, ar) { return lang === "ar" ? ar : en; }
+  function si(n) { return '<svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="' + IC[n] + '"/></svg>'; }
+  function ck(cls) { return '<span class="m-ck ' + (cls || "") + '">' + (cls ? "" : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="' + IC.check + '"/></svg>') + "</span>"; }
+  function bubble(c, t) { return '<div class="m-bub ' + c + '">' + t + "</div>"; }
+  var SC = {
+    users: function () {
+      var roles = [q("Student", "طالب"), q("Teacher", "معلم"), q("Parent", "ولي أمر"), q("Administrator", "مسؤول"), q("Institution manager", "مدير مؤسسة"), q("AI assistant", "المساعد الذكي")];
+      return '<div class="m-col" style="flex:1"><div class="m-b"><div class="m-row"><svg width="16" height="18" viewBox="40 288 431 503" aria-hidden="true"><use href="#lg-mark"/></svg><b>Scolair</b></div><div class="m-l w90" style="margin-top:12px"></div><div class="m-l w70"></div><div class="m-btn" style="margin-top:12px">' + q("Sign in", "تسجيل الدخول") + '</div></div><div class="m-col" style="gap:6px"><span class="m-pill">' + q("Email", "البريد") + '</span><span class="m-pill">' + q("Phone", "الهاتف") + '</span><span class="m-pill">' + q("Institutional ID", "رقم المؤسسة") + '</span></div></div><div class="m-col" style="flex:1.1;gap:6px">' + roles.map(function (r, i) { return '<div class="m-b m-hl" style="--i:' + i + '"><div class="m-row"><span class="m-dot"></span>' + r + "</div></div>"; }).join("") + "</div>";
+    },
+    courses: function () {
+      return '<div class="m-col" style="flex:1"><div class="m-b"><div class="m-t">' + q("UNIT 1", "الوحدة 1") + "</div><b>" + q("Fractions", "الكسور") + '</b><div class="m-bar" style="margin-top:8px"><i style="--w:100%"></i></div></div>' +
+        '<div class="m-b m-row">' + ck() + q("Lesson 1", "الدرس 1") + '</div><div class="m-b m-row">' + ck("o") + q("Lesson 2", "الدرس 2") + '<div class="m-bar" style="flex:1"><i style="--w:55%"></i></div></div><div class="m-b m-row"><span class="m-swap">' + si("lock").replace('class="m-i"', 'class="m-i" style="width:18px;height:18px"') + si("unlock").replace('class="m-i"', 'class="m-i" style="width:18px;height:18px"') + "</span>" + q("Lesson 3 unlocks", "الدرس 3 يُفتح بالتقدّم") + "</div></div>" +
+        '<div class="m-col" style="flex:1.1"><div class="m-b" style="flex:1"><div class="m-t">' + q("LESSON 2", "الدرس 2") + '</div><div class="m-vid"><i class="m-play"></i></div><div class="m-l w90"></div><div class="m-l w50"></div></div><div class="m-row" style="flex-wrap:wrap"><span class="m-pill g">' + q("Video", "فيديو") + '</span><span class="m-pill bl">' + q("Quiz", "اختبار") + '</span><span class="m-pill o">PDF</span><span class="m-pill">' + q("Interactive", "تفاعلي") + "</span></div></div>";
+    },
+    assess: function () {
+      var o = [q("Three quarters", "ثلاثة أرباع"), q("Two thirds", "ثلثان"), q("One half", "النصف"), q("Four fifths", "أربعة أخماس")];
+      return '<div class="m-col" style="flex:1.2"><div class="m-b"><div class="m-t">' + q("QUESTION 4 OF 10", "السؤال 4 من 10") + "</div>" + q("Which fraction equals 0.75?", "أي كسر يساوي 0.75؟") + "</div>" + o.map(function (t, i) { return '<div class="m-opt" style="--i:' + i + '">' + ck("l") + t + "</div>"; }).join("") + '</div><div class="m-col" style="flex:.9"><div class="m-b"><div class="m-t">' + q("DIFFICULTY", "مستوى الصعوبة") + '</div><div class="m-seg" style="margin-top:8px">' + [0, 1, 2, 3, 4].map(function (i) { return '<i style="--i:' + i + '"></i>'; }).join("") + '</div></div><div class="m-b m-pop" style="--i:0"><span class="m-pill g">' + q("Correct", "إجابة صحيحة") + "</span><div class=\"m-l w90\" style=\"margin-top:8px\"></div><div class=\"m-l w50\"></div></div><div class=\"m-b\"><div class=\"m-t\">" + q("AI-ASSISTED GRADING", "تصحيح بمساعدة الذكاء الاصطناعي") + '</div><div class="m-bar" style="margin-top:8px"><i style="--w:78%"></i></div></div></div>';
+    },
+    notes: function () {
+      return '<div class="m-col" style="flex:1.1"><div class="m-b"><div class="m-vid"><i class="m-play"></i></div><div class="m-tl"><i style="--x:18%;--i:0"></i><i style="--x:46%;--i:1"></i><i style="--x:74%;--i:2"></i></div></div><div class="m-b m-pop" style="--i:0"><span class="m-t">02:14</span><div class="m-l w90"></div><div class="m-l w50"></div></div><div class="m-b m-pop" style="--i:1"><span class="m-t">05:40</span><div class="m-l w70"></div></div></div><div class="m-col" style="flex:.9"><div class="m-b" style="flex:1;display:flex;flex-direction:column;gap:8px;justify-content:center;text-align:center;animation:mflip 6s ease-in-out infinite"><div class="m-t">' + q("FLASH REVIEW", "مراجعة سريعة") + "</div><b>" + q("What is a numerator?", "ما هو البسط؟") + '</b></div><div class="m-row"><span class="m-pill o">' + q("AI summary", "ملخص ذكي") + '</span><span class="m-pill">' + q("Share", "مشاركة") + "</span></div></div>";
+    },
+    assistant: function () {
+      return '<div class="m-col" style="flex:1.3;justify-content:flex-end">' + bubble("u m-pop", q("Explain fractions with an example", "اشرح الكسور بمثال")).replace('class="m-bub u m-pop"', 'class="m-bub u m-pop" style="--i:0"') + bubble("a m-pop", q("Think of a pizza cut into 4 equal slices. Eating 3 slices means you ate 3/4.", "تخيّل بيتزا مقسّمة إلى 4 شرائح متساوية. أكل 3 شرائح يعني أنك أكلت 3/4.")).replace('class="m-bub a m-pop"', 'class="m-bub a m-pop" style="--i:1"') + '<div class="m-bub a"><span class="m-dots"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i></span></div></div><div class="m-col" style="flex:.7"><div class="m-b"><div class="m-t">' + q("VOICE", "الصوت") + '</div><div class="m-wave" style="margin-top:8px">' + [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return '<i style="--i:' + i + '"></i>'; }).join("") + '</div></div><div class="m-b"><div class="m-t">' + q("STUDY PLAN", "خطة الدراسة") + '</div><div class="m-bar" style="margin-top:8px"><i style="--w:62%"></i></div></div><span class="m-pill o">' + q("Summary", "تلخيص") + '</span><span class="m-pill bl">' + q("Quiz me", "اختبرني") + "</span></div>";
+    },
+    builder: function () {
+      var t1 = q("Institution", "المؤسسة"), a = q("Academic", "الأكاديمي"), b = q("Admin", "الإدارة"), c = q("Support", "الدعم");
+      return '<svg class="m-svg" viewBox="0 0 300 150" aria-hidden="true"><path class="ln" d="M150 28V44M150 44H60V60M150 44H240V60M150 44V60"/><path class="ln" style="animation-delay:.4s" d="M60 82V96M60 96H30V112M60 96H90V112M240 82V96M240 96H210V112M240 96H270V112M150 82V112"/><rect class="n" x="105" y="6" width="90" height="22" rx="5"/><text x="150" y="21" text-anchor="middle">' + t1 + '</text><rect class="n" x="20" y="60" width="80" height="22" rx="5"/><text x="60" y="75" text-anchor="middle">' + a + '</text><rect class="n" x="110" y="60" width="80" height="22" rx="5"/><text x="150" y="75" text-anchor="middle">' + b + '</text><rect class="n" x="200" y="60" width="80" height="22" rx="5"/><text x="240" y="75" text-anchor="middle">' + c + '</text>' + [30, 90, 150, 210, 270].map(function (x) { return '<rect class="n" x="' + (x - 24) + '" y="112" width="48" height="18" rx="4"/>'; }).join("") + "</svg>";
+    },
+    predict: function () {
+      return '<div class="m-col" style="flex:1.5"><div class="m-b" style="flex:1"><div class="m-t">' + q("ENGAGEMENT TREND", "اتجاه التفاعل") + '</div><svg class="m-svg" viewBox="0 0 300 110" aria-hidden="true"><g stroke="rgba(238,241,251,.08)"><path d="M0 28H300M0 56H300M0 84H300"/></g><path class="m-draw" d="M8 70C60 60 110 50 170 42S250 30 292 24" fill="none" stroke="#4DB749" stroke-width="2.2" stroke-linecap="round"/><path class="m-draw" style="animation-delay:.3s" d="M8 62C50 56 90 52 130 60S210 92 258 100" fill="none" stroke="#F46F20" stroke-width="2.2" stroke-linecap="round"/><circle cx="258" cy="100" r="5" fill="#F46F20"><animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/></circle></svg></div></div><div class="m-col" style="flex:.8"><div class="m-b m-pop" style="--i:0"><span class="m-pill r">' + q("At risk", "معرّض للخطر") + '</span><div class="m-l w90" style="margin-top:8px"></div><div class="m-l w50"></div></div><div class="m-b m-pop" style="--i:1"><div class="m-t">' + q("SUGGESTED", "مقترح") + "</div>" + q("Remedial practice, then teacher check-in", "تدريب علاجي ثم متابعة من المعلم") + "</div></div>";
+    },
+    dash: function () {
+      return '<div class="m-col" style="flex:1.4"><div class="m-row">' + [[q("Users", "المستخدمون"), "1,240"], [q("Courses", "المقررات"), "48"], [q("Attendance", "الحضور"), "96%"]].map(function (k) { return '<div class="m-b m-kpi"><b>' + k[1] + '</b><span class="m-t">' + k[0] + "</span></div>"; }).join("") + '</div><div class="m-b" style="flex:1;display:flex;align-items:flex-end"><div class="m-bars" style="width:100%">' + [60, 80, 50, 90, 70, 100, 65].map(function (h, i) { return '<i style="--h:' + h + "%;--i:" + i + '"></i>'; }).join("") + '</div></div></div><div class="m-col" style="flex:.8"><div class="m-t">' + q("ANNOUNCEMENTS", "الإعلانات") + '</div><div class="m-b m-pop" style="--i:0"><div class="m-l w90" style="margin:0"></div><div class="m-l w50"></div></div><div class="m-b m-pop" style="--i:1"><div class="m-l w70" style="margin:0"></div><div class="m-l w30"></div></div><span class="m-pill o">' + q("Export report", "تصدير تقرير") + "</span></div>";
+    },
+    library: function () {
+      var ic = ["video", "file", "test", "book", "notes", "chart"];
+      return '<div class="m-col" style="flex:1"><div class="m-b m-row"><svg class="m-i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"/></svg>' + q("fractions grade 5", "كسور الصف الخامس") + '<i class="m-caret"></i></div><div class="m-grid3">' + ic.map(function (n, i) { return '<div class="m-tile" style="--i:' + i + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + IC[n] + '"/></svg></div>'; }).join("") + '</div><div class="m-row" style="flex-wrap:wrap"><span class="m-pill o">' + q("Maths", "رياضيات") + '</span><span class="m-pill bl">' + q("Grade 5", "الصف 5") + '</span><span class="m-pill g">' + q("Video", "فيديو") + '</span><span class="m-pill">v3</span></div></div>';
+    },
+    wall: function () {
+      function post(i, w1, w2, tag, n) { return '<div class="m-b m-pop" style="--i:' + i + '"><div class="m-row"><span class="m-dot"></span><div class="m-l ' + w1 + '" style="margin:0;flex:none"></div></div><div class="m-l ' + w2 + '"></div><div class="m-row" style="margin-top:8px;flex-wrap:wrap"><span class="m-pill o">#' + tag + '</span><span class="m-pill">♥ ' + n + "</span></div></div>"; }
+      return '<div class="m-col" style="flex:1.2">' + post(0, "w30", "w90", q("maths", "رياضيات"), 12) + post(1, "w50", "w70", q("study-group", "مجموعة-دراسة"), 7) + '</div><div class="m-col" style="flex:.8"><div class="m-b"><span class="m-pill g">' + q("AI moderated", "إشراف ذكي") + '</span><div class="m-l w90" style="margin-top:10px"></div></div><div class="m-b"><div class="m-t">' + q("LINKED TO COURSE", "مرتبط بالمقرر") + '</div><div class="m-bar" style="margin-top:8px"><i style="--w:70%"></i></div></div></div>';
+    },
+    groups: function () {
+      return '<div class="m-col" style="flex:1"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="m-face sp"></div><div class="m-face"></div><div class="m-face"></div><div class="m-face"></div></div><div class="m-row"><span class="m-pill g">' + q("Voice", "صوت") + '</span><span class="m-pill bl">' + q("Video", "فيديو") + '</span><span class="m-pill o">' + q("Chat", "محادثة") + '</span></div></div><div class="m-col" style="flex:1"><div class="m-b" style="flex:1"><div class="m-t">' + q("WHITEBOARD", "السبورة") + '</div><svg class="m-svg" viewBox="0 0 140 70" aria-hidden="true"><path class="m-draw" d="M8 50C30 10 50 10 60 40S90 60 130 14" fill="none" stroke="#F46F20" stroke-width="2.4" stroke-linecap="round"/><path class="m-draw" style="animation-delay:.6s" d="M10 62H120" fill="none" stroke="#9FB4FF" stroke-width="2" stroke-linecap="round"/></svg></div><div class="m-b m-row">' + ck() + q("Group task", "مهمة جماعية") + "</div></div>";
+    },
+    care: function () {
+      return '<div class="m-col" style="flex:1"><div class="m-b"><div class="m-t">' + q("THERAPY GOALS", "أهداف العلاج") + '</div></div><div class="m-b m-row">' + ck() + q("Daily exercise", "تمرين يومي") + '</div><div class="m-b m-row">' + ck() + q("Session notes", "ملاحظات الجلسة") + '</div><div class="m-b m-row">' + ck("o") + q("Weekly review", "مراجعة أسبوعية") + '</div></div><div class="m-col" style="flex:1.1"><div class="m-b" style="flex:1"><div class="m-t">' + q("APPROVED HEALTH VIEW", "عرض صحي معتمد") + '</div><svg class="m-svg" viewBox="0 0 160 70" aria-hidden="true"><path class="m-draw" d="M0 40H40l8-24 12 48 10-34 6 10H160" fill="none" stroke="#F46F20" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="m-pill g">' + q("Authorized staff only", "للكوادر المصرّح لها فقط") + "</span></div>";
+    },
+    transport: function () {
+      return '<div class="m-b" style="flex:1;position:relative;padding:0"><svg class="m-svg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="rgba(238,241,251,.07)"><path d="M0 40H300M0 80H300M0 120H300M60 0V150M120 0V150M180 0V150M240 0V150"/></g><path d="M20 120C80 40 130 130 180 80S260 40 285 28" fill="none" stroke="#9CA7D0" stroke-width="2" stroke-dasharray="5 7" stroke-linecap="round"><animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2s" repeatCount="indefinite"/></path><circle cx="20" cy="120" r="5" fill="#EEF1FB"/><circle cx="285" cy="28" r="6" fill="#F46F20"/><circle r="6" fill="#4DB749"><animateMotion dur="6s" repeatCount="indefinite" path="M20 120C80 40 130 130 180 80S260 40 285 28"/></circle></svg><div style="position:absolute;inset-inline-start:12px;bottom:12px;display:flex;gap:6px;flex-wrap:wrap"><span class="m-pill g">' + q("On the way", "في الطريق") + '</span><span class="m-pill">' + q("ETA 07:41", "الوصول 07:41") + '</span><span class="m-pill o">' + q("Boarding recorded", "تم تسجيل الصعود") + "</span></div></div>";
+    },
+    family: function () {
+      return '<div class="m-col" style="flex:1;align-items:center;justify-content:center;gap:10px"><svg class="m-ring" viewBox="0 0 74 74" aria-hidden="true"><circle class="bg" cx="37" cy="37" r="30"/><circle class="fg" cx="37" cy="37" r="30"/></svg><div class="m-t">' + q("WEEKLY PROGRESS", "التقدّم الأسبوعي") + '</div><span class="m-pill o">' + q("Where to help", "أين نساعد") + '</span></div><div class="m-phone"><div class="m-t" style="text-align:center">' + q("PARENT APP", "تطبيق ولي الأمر") + '</div><div class="m-b m-pop" style="--i:0">' + q("Boarding confirmed", "تم تأكيد الصعود") + '</div><div class="m-b m-pop" style="--i:1">' + q("Activity complete", "اكتمل النشاط") + '</div><div class="m-b m-pop" style="--i:2">' + q("Report ready", "التقرير جاهز") + "</div></div>";
+    }
+  };
+  var SYS = {
+    cats: [["core", { en: "Core learning", ar: "التعلّم الأساسي" }, ["users", "courses", "assess", "notes"]], ["ai", { en: "AI-powered", ar: "مدعوم بالذكاء الاصطناعي" }, ["assistant", "builder", "predict"]], ["admin", { en: "Administration", ar: "الإدارة" }, ["dash", "library"]], ["social", { en: "Collaboration", ar: "التعاون" }, ["wall", "groups"]], ["eco", { en: "School ecosystem", ar: "المنظومة المدرسية" }, ["care", "transport", "family"]]],
+    mods: {
+      users: { ic: "usercheck", pilot: 1, t: { en: "User Management", ar: "إدارة المستخدمين" }, s: { en: "Authentication, profiles and role-based permissions.", ar: "المصادقة والملفات الشخصية والصلاحيات حسب الدور." }, b: [{ en: "Sign up with email, phone or institutional ID", ar: "إنشاء حساب بالبريد أو الهاتف أو رقم المؤسسة" }, { en: "Roles: student, teacher, parent, administrator, institution manager and AI assistant", ar: "الأدوار: طالب ومعلم وولي أمر ومسؤول ومدير مؤسسة والمساعد الذكي" }, { en: "Profiles with photo, bio, subjects and goals", ar: "ملفات شخصية بالصورة والنبذة والمواد والأهداف" }, { en: "Multi-role support and access control", ar: "دعم تعدد الأدوار والتحكم في الوصول" }] },
+      courses: { ic: "book", pilot: 1, t: { en: "Course Management", ar: "إدارة المقررات" }, s: { en: "The foundation: content, materials and learning paths.", ar: "الأساس: المحتوى والمواد ومسارات التعلّم." }, b: [{ en: "Courses, units and lessons in any structure", ar: "مقررات ووحدات ودروس بأي هيكل" }, { en: "Video, text, quizzes, interactive modules and PDFs", ar: "فيديو ونص واختبارات ووحدات تفاعلية وملفات PDF" }, { en: "Lesson scheduling, time tracking and prerequisites", ar: "جدولة الدروس وتتبع الوقت ومتطلبات الفتح" }, { en: "Course templates and AI summaries", ar: "قوالب مقررات وملخصات بالذكاء الاصطناعي" }] },
+      assess: { ic: "test", t: { en: "Assessment and Evaluation", ar: "التقييم والتقويم" }, s: { en: "A flexible engine for assignments, quizzes and exams.", ar: "محرّك مرن للواجبات والاختبارات والامتحانات." }, b: [{ en: "Question bank: multiple choice, essays, drag and drop", ar: "بنك أسئلة: اختيار من متعدد ومقالي وسحب وإفلات" }, { en: "AI-assisted grading for written answers", ar: "تصحيح بمساعدة الذكاء الاصطناعي للإجابات الكتابية" }, { en: "Adaptive testing that adjusts difficulty", ar: "اختبارات تكيّفية تضبط الصعوبة" }, { en: "Feedback and progress visuals", ar: "تغذية راجعة وعرض مرئي للتقدّم" }] },
+      notes: { ic: "notes", pilot: 1, t: { en: "Smart Notes", ar: "الملاحظات الذكية" }, s: { en: "Interactive note-taking and revision.", ar: "تدوين تفاعلي ومراجعة." }, b: [{ en: "Notes while watching videos or reading lessons", ar: "ملاحظات أثناء مشاهدة الفيديو أو قراءة الدروس" }, { en: "Time-stamped and linked to lesson sections", ar: "مؤرّخة بالوقت ومرتبطة بأجزاء الدرس" }, { en: "AI summaries, smart reminders and flash review cards", ar: "ملخصات ذكية وتذكيرات وبطاقات مراجعة سريعة" }, { en: "Share with classmates or instructors", ar: "مشاركة مع الزملاء أو المعلمين" }] },
+      assistant: { ic: "spark", pilot: 1, t: { en: "AI Learning Assistant", ar: "مساعد التعلّم الذكي" }, s: { en: "A personal tutor that supports learners in real time.", ar: "معلّم شخصي يدعم المتعلّم لحظة بلحظة." }, b: [{ en: "Explains hard concepts with simple examples", ar: "يشرح المفاهيم الصعبة بأمثلة بسيطة" }, { en: "Answers questions about course content", ar: "يجيب عن أسئلة محتوى المقرر" }, { en: "Summaries, key points and quiz questions", ar: "ملخصات ونقاط رئيسية وأسئلة اختبار" }, { en: "Personal study plans, avatars, text and voice", ar: "خطط دراسة شخصية وشخصيات افتراضية بالنص والصوت" }] },
+      builder: { ic: "tree", t: { en: "Smart Organizational Builder", ar: "المنشئ التنظيمي الذكي" }, s: { en: "An AI planner that helps institutions structure their resources.", ar: "مخطّط ذكي يساعد المؤسسات على تنظيم مواردها." }, b: [{ en: "Analyzes students, teachers, subjects and schedule limits", ar: "يحلّل أعداد الطلاب والمعلمين والمواد وقيود الجدول" }, { en: "Suggests staff-to-student distribution", ar: "يقترح توزيع الكوادر على الطلاب" }, { en: "Generates hierarchy, roles and permissions", ar: "يولّد الهيكل الإداري والأدوار والصلاحيات" }, { en: "Forecasts workload; fits hybrid or online-only", ar: "يتوقع عبء العمل ويناسب التعليم الهجين أو عن بُعد" }] },
+      predict: { ic: "chart", t: { en: "Predictive Analytics and Insights", ar: "التحليلات التنبؤية والرؤى" }, s: { en: "Actionable intelligence for teachers and managers.", ar: "معلومات قابلة للتنفيذ للمعلمين والمديرين." }, b: [{ en: "Identifies at-risk students from activity and results", ar: "يحدد الطلاب المعرّضين للخطر من النشاط والنتائج" }, { en: "Predicts performance trends and engagement drop-offs", ar: "يتوقع اتجاهات الأداء وتراجع التفاعل" }, { en: "Recommends interventions and remedial actions", ar: "يوصي بتدخلات وإجراءات علاجية" }, { en: "Visual dashboards for data-driven decisions", ar: "لوحات مرئية لقرارات مبنية على البيانات" }] },
+      dash: { ic: "dash", t: { en: "Institution Dashboard", ar: "لوحة المؤسسة" }, s: { en: "One control panel for a school or organization.", ar: "لوحة تحكم واحدة للمدرسة أو المؤسسة." }, b: [{ en: "Overview of users, courses and activities", ar: "نظرة شاملة على المستخدمين والمقررات والأنشطة" }, { en: "Manage staff and permissions", ar: "إدارة الكوادر والصلاحيات" }, { en: "Monitor usage, engagement and attendance", ar: "متابعة الاستخدام والتفاعل والحضور" }, { en: "Custom reports, exports, announcements and circulars", ar: "تقارير مخصصة وتصدير وإعلانات وتعاميم" }] },
+      library: { ic: "lib", t: { en: "Content Management and Library", ar: "إدارة المحتوى والمكتبة" }, s: { en: "A repository for all educational materials.", ar: "مستودع لكل المواد التعليمية." }, b: [{ en: "Upload, organize and tag by subject, level and format", ar: "رفع وتنظيم ووسم حسب المادة والمستوى والصيغة" }, { en: "Version control for updated materials", ar: "إدارة إصدارات المواد المحدّثة" }, { en: "AI metadata tagging and content search", ar: "وسم بيانات وصفية بالذكاء الاصطناعي وبحث في المحتوى" }, { en: "External resources such as YouTube EDU and Open Library", ar: "موارد خارجية مثل YouTube EDU وOpen Library" }] },
+      wall: { ic: "chat", pilot: 1, t: { en: "Learning Wall", ar: "جدار التعلّم" }, s: { en: "The social layer where education meets community.", ar: "الطبقة الاجتماعية حيث يلتقي التعليم بالمجتمع." }, b: [{ en: "Post ideas, questions and study invitations", ar: "نشر الأفكار والأسئلة ودعوات الدراسة" }, { en: "Tag topics and connect with similar learners", ar: "وسم المواضيع والتواصل مع متعلّمين بنفس الاهتمام" }, { en: "Comment, react and share insights", ar: "تعليق وتفاعل ومشاركة الأفكار" }, { en: "AI moderation; discuss lessons inside the course", ar: "إشراف بالذكاء الاصطناعي ونقاش الدروس داخل المقرر" }] },
+      groups: { ic: "users2", t: { en: "Study Groups and Collaboration Rooms", ar: "مجموعات الدراسة وغرف التعاون" }, s: { en: "Virtual classrooms and private group spaces.", ar: "فصول افتراضية ومساحات جماعية خاصة." }, b: [{ en: "Real-time chat, voice and video sessions", ar: "محادثة وصوت وفيديو في الوقت الفعلي" }, { en: "Whiteboard and document sharing", ar: "سبورة ومشاركة المستندات" }, { en: "Group task tracking and to-do lists", ar: "متابعة المهام الجماعية وقوائم المهام" }, { en: "AI assistant support during discussions", ar: "دعم المساعد الذكي أثناء النقاش" }] },
+      care: { ic: "heart", t: { en: "Student Care", ar: "رعاية الطلاب" }, s: { en: "Individual care plans and approved health information.", ar: "خطط رعاية فردية ومعلومات صحية معتمدة." }, b: [{ en: "Therapy goals, exercises and session notes", ar: "أهداف العلاج والتمارين وملاحظات الجلسات" }, { en: "Wearable readings for authorized staff", ar: "قراءات الأجهزة للكوادر المصرّح لها" }, { en: "Cameras in approved areas only", ar: "كاميرات في المناطق المعتمدة فقط" }, { en: "One intelligent profile per student", ar: "ملف ذكي واحد لكل طالب" }] },
+      transport: { ic: "bus", t: { en: "School Transport", ar: "النقل المدرسي" }, s: { en: "Live tracking and recorded handover.", ar: "تتبّع مباشر وتسليم موثّق." }, b: [{ en: "Live bus location with estimated arrival", ar: "موقع الحافلة مباشرة مع الوصول المتوقع" }, { en: "Boarding and drop-off records", ar: "سجلات الصعود والنزول" }, { en: "Pickup requests verified by the school", ar: "طلبات استلام تتحقق منها المدرسة" }, { en: "A parent notification at every step", ar: "إشعار لولي الأمر في كل خطوة" }] },
+      family: { ic: "house", t: { en: "Family Services", ar: "خدمات الأسرة" }, s: { en: "A calm dashboard for parents.", ar: "لوحة هادئة لأولياء الأمور." }, b: [{ en: "Learning progress and daily activities", ar: "تقدّم التعلّم والأنشطة اليومية" }, { en: "Transport status and approved updates", ar: "حالة النقل والتحديثات المعتمدة" }, { en: "Notifications for key moments", ar: "إشعارات لأهم اللحظات" }, { en: "Reports in a simplified, approved view", ar: "تقارير بعرض مبسّط ومعتمد" }] }
+    }
+  };
+  C.sys = {
+    eb: { en: "The complete system", ar: "النظام كاملًا" },
+    h: { en: "Every module of the LMS, <em>in one platform.</em>", ar: "كل وحدات نظام التعلّم، <em>في منصة واحدة.</em>" },
+    l: { en: "Smart Interactive LMS is one modular system. Browse each layer and see how the modules work together.", ar: "نظام التعلّم التفاعلي الذكي منظومة واحدة مترابطة الوحدات. تصفّح كل طبقة وشاهد كيف تعمل الوحدات معًا." },
+    pilot: { en: "Included in the pilot", ar: "ضمن النسخة التجريبية" },
+    cap: { en: "Illustrative screens with sample content.", ar: "شاشات توضيحية بمحتوى تجريبي." },
+    pl: { en: "Planned next", ar: "قيد التخطيط" },
+    plan: [{ en: "Gamification and badges", ar: "التحفيز بالشارات والمستويات" }, { en: "Trainer marketplace", ar: "سوق المدرّبين" }, { en: "Parent and mentor dashboards", ar: "لوحات أولياء الأمور والمرشدين" }, { en: "Offline learning mode", ar: "التعلّم بدون إنترنت" }, { en: "VR and AR learning spaces", ar: "مساحات تعلّم VR وAR" }, { en: "ERP integrations", ar: "التكامل مع أنظمة المدارس (ERP)" }],
+    pause: { en: "⏸ Pause the tour", ar: "⏸ إيقاف الجولة التلقائية" }, play: { en: "▶ Start the auto tour", ar: "▶ بدء الجولة التلقائية" }
+  };
+  C.roles = {
+    eb: { en: "Who it is for", ar: "لمن هذا النظام" },
+    h: { en: "One platform, <em>four points of view.</em>", ar: "منصة واحدة، <em>أربع زوايا نظر.</em>" },
+    r: [
+      { ic: "cap", t: { en: "Students", ar: "الطلاب" }, d: { en: "From age four through university, each learner moves at their own pace.", ar: "من عمر أربع سنوات حتى الجامعة، يتقدّم كل متعلّم بإيقاعه." }, l: [{ en: "Adaptive lessons and tests", ar: "دروس واختبارات تكيّفية" }, { en: "AI assistant and smart notes", ar: "المساعد الذكي والملاحظات الذكية" }, { en: "Learning wall and study groups", ar: "جدار التعلّم ومجموعات الدراسة" }] },
+      { ic: "book", t: { en: "Teachers and trainers", ar: "المعلمون والمدرّبون" }, d: { en: "Create and deliver lessons, track progress and engage students.", ar: "إنشاء الدروس وتقديمها ومتابعة التقدّم وإشراك الطلاب." }, l: [{ en: "Course builder and templates", ar: "منشئ المقررات والقوالب" }, { en: "Assessment engine with AI grading", ar: "محرّك تقييم بتصحيح ذكي" }, { en: "Live analytics for every class", ar: "تحليلات مباشرة لكل فصل" }] },
+      { ic: "dash", t: { en: "Schools and institutions", ar: "المدارس والمؤسسات" }, d: { en: "Automate academic and administrative work while improving outcomes.", ar: "أتمتة العمل الأكاديمي والإداري مع تحسين المخرجات." }, l: [{ en: "Institution dashboard", ar: "لوحة المؤسسة" }, { en: "Smart organizational builder", ar: "المنشئ التنظيمي الذكي" }, { en: "Content library and reports", ar: "مكتبة المحتوى والتقارير" }] },
+      { ic: "house", t: { en: "Parents", ar: "أولياء الأمور" }, d: { en: "Follow a child's growth and see where they excel or need help.", ar: "متابعة نمو الطفل ومعرفة أين يتفوق وأين يحتاج مساعدة." }, l: [{ en: "Progress and daily activities", ar: "التقدّم والأنشطة اليومية" }, { en: "Notifications at key moments", ar: "إشعارات في اللحظات المهمة" }, { en: "Bus tracking and approved reports", ar: "تتبّع الحافلة وتقارير معتمدة" }] }
+    ]
+  };
+  var SYS_ORDER = [], sIdx = 0, sTimer = null, sAuto = false, sVis = false;
+  SYS.cats.forEach(function (c) { c[2].forEach(function (m) { SYS_ORDER.push(m); }); });
+  function catOf(id) { for (var i = 0; i < SYS.cats.length; i++) if (SYS.cats[i][2].indexOf(id) > -1) return i; return 0; }
+  function renderSystem() {
+    var S = C.sys;
+    $("sy_eb").textContent = T(S.eb); $("sy_h").innerHTML = T(S.h); $("sy_l").textContent = T(S.l); $("scap").textContent = T(S.cap); $("pl_l").textContent = T(S.pl);
+    $("pl_c").innerHTML = S.plan.map(function (x) { return "<span>" + T(x) + "</span>"; }).join("");
+    $("stabs").innerHTML = SYS.cats.map(function (c, i) { return '<button class="stab" type="button" role="tab" data-c="' + i + '"><span>' + T(c[1]) + "</span><b>" + c[2].length + "</b></button>"; }).join("");
+    Array.prototype.forEach.call($("stabs").querySelectorAll(".stab"), function (b) { b.addEventListener("click", function () { sAuto = false; sSync(); showSys(SYS_ORDER.indexOf(SYS.cats[+b.getAttribute("data-c")][2][0])); }); });
+    $("rgrid").innerHTML = C.roles.r.map(function (r) { return '<article class="rc"><div class="rorb">' + ico(r.ic) + "</div><h3>" + T(r.t) + "</h3><p>" + T(r.d) + "</p><ul>" + r.l.map(function (x) { return "<li>" + T(x) + "</li>"; }).join("") + "</ul></article>"; }).join("");
+    $("ro_eb").textContent = T(C.roles.eb); $("ro_h").innerHTML = T(C.roles.h);
+    showSys(sIdx); sSync();
+  }
+  function showSys(i) {
+    sIdx = i; var id = SYS_ORDER[i], m = SYS.mods[id], ci = catOf(id), cat = SYS.cats[ci];
+    Array.prototype.forEach.call($("stabs").querySelectorAll(".stab"), function (b, k) { b.setAttribute("aria-selected", k === ci ? "true" : "false"); });
+    $("slist").innerHTML = cat[2].map(function (mid) { var mm = SYS.mods[mid]; return '<button class="smod" type="button" role="tab" data-m="' + mid + '" aria-selected="' + (mid === id ? "true" : "false") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + IC[mm.ic] + '"/></svg><span>' + T(mm.t) + "</span></button>"; }).join("");
+    Array.prototype.forEach.call($("slist").querySelectorAll(".smod"), function (b) { b.addEventListener("click", function () { sAuto = false; sSync(); showSys(SYS_ORDER.indexOf(b.getAttribute("data-m"))); }); });
+    var d = $("sdet"); d.style.animation = "none"; void d.offsetWidth; d.style.animation = "";
+    d.innerHTML = (m.pilot ? '<span class="pilot">' + T(C.sys.pilot) + "</span>" : "") + "<h3>" + T(m.t) + '</h3><p class="tl">' + T(m.s) + "</p><ul>" + m.b.map(function (x) { return "<li>" + T(x) + "</li>"; }).join("") + "</ul>";
+    $("scr_t").textContent = T(m.t).toUpperCase();
+    var b = $("scr_b"); b.style.animation = "none"; void b.offsetWidth; b.style.animation = "";
+    b.innerHTML = SC[id]();
+  }
+  function sSync() {
+    if (sTimer) { clearInterval(sTimer); sTimer = null; }
+    if (sAuto && sVis && !reduce) sTimer = setInterval(function () { showSys((sIdx + 1) % SYS_ORDER.length); }, 6500);
+    var b = $("sy_play"); b.textContent = T(sAuto ? C.sys.pause : C.sys.play); b.setAttribute("aria-pressed", sAuto ? "true" : "false");
+  }
+  $("sy_play").addEventListener("click", function () { sAuto = !sAuto; sSync(); });
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { sVis = es[0].isIntersecting; sSync(); }, { threshold: 0.2 }).observe($("system"));
+
+  /* ===== downloads (only when hosted with the PHP backend) ===== */
+  var DW = [];
+  function renderDownloads() {
+    var sec = $("downloads");
+    if (!DW.length) { sec.hidden = true; return; }
+    sec.hidden = false;
+    $("dw_eb").textContent = lang === "ar" ? "التحميلات" : "Downloads";
+    $("dw_h").innerHTML = lang === "ar" ? "ملفات <em>للتحميل.</em>" : "Files <em>to download.</em>";
+    $("dw_g").innerHTML = DW.map(function (f) {
+      var t = lang === "ar" ? f.title_ar : f.title_en, d = lang === "ar" ? f.desc_ar : f.desc_en, kb = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(f.size / 1024)) + " KB";
+      return '<a class="dwc" href="api/download.php?id=' + encodeURIComponent(f.id) + '"><span class="dwx">' + String(f.ext).toUpperCase().replace(/[<>&]/g, "") + '</span><span><b>' + esc(t) + "</b>" + (d ? "<small>" + esc(d) + "</small>" : "") + "<em>" + (lang === "ar" ? "تحميل" : "Download") + " · " + kb + "</em></span></a>";
+    }).join("");
+  }
+  function esc(x) { return String(x == null ? "" : x).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  if (typeof FILES_ENDPOINT !== "undefined" && FILES_ENDPOINT) {
+    fetch(FILES_ENDPOINT, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) { DW = (j && j.files) || []; renderDownloads(); }).catch(function () {});
+  }
+  var ARROW = ' <span class="arr" aria-hidden="true">→</span>';
+  function set(id, key, html) { var e = $(id); if (e) { if (html) e.innerHTML = T(C[key]); else e.textContent = T(C[key]); } }
+
+  /* pillar visuals */
+  function visual(p) {
+    if (p.v === "img") return '<div class="pv ph"><img src="' + p.src + '" alt="" loading="lazy"></div>';
+    if (p.v === "pulse") return '<div class="pv"><svg viewBox="0 0 300 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="rgba(238,241,251,.08)" stroke-width="1"><path d="M0 47H300M0 95H300M0 143H300M75 0V190M150 0V190M225 0V190"/></g><path class="pulse" d="M0 100H70l14-42 22 84 18-62 12 20H300" fill="none" stroke="#F46F20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+    return '<div class="pv"><svg viewBox="0 0 300 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="rgba(238,241,251,.08)" stroke-width="1"><path d="M0 47H300M0 95H300M0 143H300M75 0V190M150 0V190M225 0V190"/></g><path id="rt" class="route" d="M20 150C80 60 130 170 180 100S260 50 285 40" fill="none" stroke="#9CA7D0" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="150" r="5" fill="#EEF1FB"/><circle cx="285" cy="40" r="6" fill="#F46F20"/><circle r="6" fill="#4DB749"><animateMotion dur="7s" repeatCount="indefinite" path="M20 150C80 60 130 170 180 100S260 50 285 40"/></circle></svg></div>';
+  }
+
+  /* render everything */
+  var momentIdx = 0, timer = null, playing = false;
+  var menuToggle = $("menuToggle");
+  function setMenu(open) {
+    menuToggle.setAttribute("aria-expanded", String(open));
+    $("nav").classList.toggle("expanded", open);
+  }
+  menuToggle.addEventListener("click", function () {
+    setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
+  });
+  $("nav").addEventListener("click", function (event) {
+    var link = event.target.closest("a");
+    if (!link || menuToggle.getAttribute("aria-expanded") !== "true") return;
+    setMenu(false);
+    var target = document.querySelector(link.hash);
+    if (target) { target.tabIndex = -1; target.focus({preventScroll: true}); }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+      setMenu(false);
+      menuToggle.focus();
+    }
+  });
+  function render() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    setMenu(false);
+    menuToggle.textContent = q("Menu", "القائمة");
+    $("pilotScope").textContent = q("The pilot scope and future modules are listed separately below. Ask which modules your school can try and when access can begin.", "تجد أدناه الوحدات المشمولة في العرض التجريبي والوحدات المخططة لاحقًا. استفسر عن الوحدات التي يمكن لمدرستك تجربتها وموعد إتاحتها.");
+    $("footerTrust").textContent = q("Data and safeguards", "البيانات وضوابط الحماية");
+    $("footerContact").textContent = q("Contact Scolair", "تواصل مع سكولير");
+    app.setAttribute("dir", lang === "ar" ? "rtl" : "ltr"); app.setAttribute("lang", lang);
+    $("bAr").setAttribute("aria-pressed", lang === "ar"); $("bEn").setAttribute("aria-pressed", lang === "en");
+    $("nav").innerHTML = C.nav.filter(function (n) { return !CMSH[n[0]]; }).map(function (n) { return '<a href="#' + n[0] + '">' + T(n[1]) + "</a>"; }).join("");
+    set("navcta", "navcta");
+    set("h_eb", "h_eb"); set("h_h1", "h_h1", 1); set("h_lead", "h_lead");
+    $("h_c1").innerHTML = T(C.navcta) + ARROW; $("h_c2").innerHTML = T(C.h_c2) + ARROW; set("h_hint", "h_hint"); set("c_hint", "c_hint");
+    set("f_t", "f_t"); set("f_s", "f_s");
+    $("strip").innerHTML = C.strip.map(function (s) { return '<div class="it"><b>' + T(s[0]) + "</b><span>" + T(s[1]) + "</span></div>"; }).join("");
+    set("m_eb", "m_eb"); set("m_big", "m_big", 1);
+    $("m_three").innerHTML = C.m_three.map(function (t, i) { return "<div>" + ico(C.icons.m_three[i]) + "<b>0" + (i + 1) + "</b><p>" + T(t) + "</p></div>"; }).join("");
+    renderFlow(); renderSystem(); renderDownloads();
+    set("p_eb", "p_eb"); set("p_h", "p_h", 1);
+    $("pillars").innerHTML = C.pillars.map(function (p, i) {
+      return '<article class="pc" style="--i:' + i + '">' + visual(p) + '<div class="pb"><span class="no">0' + (i + 1) + "</span><h3>" + T(p.t) + "</h3><p>" + T(p.d) + "</p><ul>" + p.l.map(function (x) { return "<li>" + T(x) + "</li>"; }).join("") + "</ul></div></article>";
+    }).join("");
+    if (reduce) Array.prototype.forEach.call(document.querySelectorAll("#pillars svg"), function (s) { if (s.pauseAnimations) s.pauseAnimations(); });
+    set("d_eb", "d_eb"); set("d_h", "d_h", 1); set("pc_l", "pc_l"); set("d_note", "d_note");
+    $("moments").innerHTML = C.moments.map(function (m, i) { return '<button class="mo" type="button" role="tab" data-i="' + i + '"><b>' + m.tm + "</b>" + T(m.t) + "</button>"; }).join("");
+    $("wdots").innerHTML = C.moments.map(function (m, i) { var x = (i + 0.5) / C.moments.length; return '<span class="wd" style="inset-inline-start:' + (x * 100) + "%;top:" + wy(x) + 'px"></span>'; }).join("");
+    Array.prototype.forEach.call($("moments").querySelectorAll(".mo"), function (b) { b.addEventListener("click", function () { stopPlay(); showMoment(+b.getAttribute("data-i")); }); });
+    $("dplay").textContent = T(playing ? C.pause : C.play);
+    showMoment(momentIdx);
+    set("t_eb", "t_eb"); set("t_h", "t_h", 1); set("t_q", "t_q");
+    $("principles").innerHTML = C.principles.map(function (p, i) { return '<div class="pr">' + ico(C.icons.principles[i]) + "<b>0" + (i + 1) + "</b><h3>" + T(p[0]) + "</h3><p>" + T(p[1]) + "</p></div>"; }).join("");
+    set("pf_eb", "pf_eb"); set("pf_h", "pf_h", 1); set("pf_n", "pf_n");
+    $("targets").innerHTML = C.targets.map(function (t, i) { return '<div class="tg"><b data-t="' + i + '">' + fmt(t, t.n) + "</b><span>" + T(t.l) + "</span></div>"; }).join("");
+    set("s_eb", "s_eb"); set("s_h", "s_h", 1);
+    $("steps").innerHTML = C.steps.map(function (s, i) { return '<div class="sp">' + ico(C.icons.steps[i]) + "<h3>" + T(s[0]) + "</h3><p>" + T(s[1]) + "</p></div>"; }).join("");
+    set("g_eb", "g_eb"); set("g_h", "g_h", 1);
+    $("progs").innerHTML = C.progs.map(function (p, pi) {
+      return '<div class="pg' + (p.feat ? " feat" : "") + '">' + ico(C.icons.progs[pi]) + '<span class="tag">' + (p.tag ? T(p.tag) : "") + "</span><h3>" + T(p.t) + '</h3><span class="inc">' + T(p.inc) + "</span><ul>" + p.l.map(function (x) { return "<li>" + T(x) + "</li>"; }).join("") + '</ul><div class="price">' + T(C.price) + '</div><button class="btn ' + (p.feat ? "light" : "dline") + '" type="button" data-open="' + pi + '">' + T(C.discuss) + ARROW + "</button></div>";
+    }).join("");
+    set("q_eb", "q_eb"); set("q_h", "q_h", 1);
+    $("faqlist").innerHTML = C.faq.map(function (f) { return "<details><summary>" + T(f[0]) + "</summary><p>" + T(f[1]) + "</p></details>"; }).join("");
+    set("c_eb", "c_eb"); set("c_h", "c_h", 1); set("c_l", "c_l");
+    $("c_b0").innerHTML = T(C.c_b0) + ARROW; $("c_b1").innerHTML = T(C.c_b1) + ARROW; set("c_m", "c_m"); set("c_cp", "cp"); $("c_ok").textContent = ""; set("f_tag", "f_tag");
+    $("fc_eb").textContent = T(C.faces.eb); $("fc_h").innerHTML = T(C.faces.h); $("fc_l").textContent = T(C.faces.l);
+    renderBands();
+    renderCustom();
+    observe();
+  }
+
+  /* day wave */
+  function wy(x) { return 60 + 30 * Math.sin(x * Math.PI * 3 + 0.5); }
+  (function () { var d = "", k; for (k = 0; k <= 100; k++) { var x = k / 100; d += (k ? "L" : "M") + (x * 1000).toFixed(1) + " " + wy(x).toFixed(1); } $("wpath").setAttribute("d", d); $("wlive").setAttribute("d", d); })();
+  var orbX = null, orbRaf = 0;
+  function putOrb(x) { var o = $("worb"); o.style.insetInlineStart = (x * 100) + "%"; o.style.top = wy(x) + "px"; $("wrect").setAttribute("width", x * 1000); }
+  function moveOrb(to) {
+    if (orbRaf) cancelAnimationFrame(orbRaf);
+    var from = orbX == null ? to : orbX;
+    if (reduce || from === to) { orbX = to; putOrb(to); return; }
+    var t0 = null;
+    function step(ts) { if (t0 === null) t0 = ts; var k = Math.min(1, (ts - t0) / 900), e = 1 - Math.pow(1 - k, 3); orbX = from + (to - from) * e; putOrb(orbX); if (k < 1) orbRaf = requestAnimationFrame(step); }
+    orbRaf = requestAnimationFrame(step);
+  }
+
+  /* day scrubber */
+  function showMoment(i) {
+    momentIdx = i; var m = C.moments[i];
+    $("d_clock").innerHTML = m.tm + "<small>" + T({ en: "Sample time", ar: "وقت توضيحي" }) + "</small>";
+    $("d_title").textContent = T(m.t); $("d_desc").textContent = T(m.d);
+    $("pc_t").textContent = m.tm;
+    var n = $("pc_n"); n.style.animation = "none"; void n.offsetWidth; n.style.animation = "";
+    n.innerHTML = "<span>" + T(C.pc_n) + "</span><p>" + T(m.p) + "</p>";
+    Array.prototype.forEach.call($("moments").querySelectorAll(".mo"), function (b, k) { b.setAttribute("aria-selected", k === i ? "true" : "false"); b.classList.toggle("past", k < i); });
+    Array.prototype.forEach.call($("wdots").querySelectorAll(".wd"), function (d, k) { d.classList.toggle("past", k <= i); });
+    moveOrb((i + 0.5) / C.moments.length);
+    Array.prototype.forEach.call($("dbg").querySelectorAll("img"), function (im, k) { im.classList.toggle("on", k === m.img); });
+  }
+  function startPlay() { playing = true; $("dplay").textContent = T(C.pause); timer = setInterval(function () { showMoment((momentIdx + 1) % C.moments.length); }, 4200); }
+  function stopPlay() { playing = false; if (timer) { clearInterval(timer); timer = null; } $("dplay").textContent = T(C.play); }
+  $("dplay").addEventListener("click", function () { playing ? stopPlay() : startPlay(); });
+
+  /* counters + reveal */
+  function fmt(t, v) { return t.pre + (t.dec ? v.toFixed(t.dec) : Math.round(v)) + t.s; }
+  var io = null;
+  function observe() {
+    if (!("IntersectionObserver" in window)) { Array.prototype.forEach.call(document.querySelectorAll(".rv"), function (e) { e.classList.add("in"); }); return; }
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add("in");
+        if (en.target.id === "targets" && !reduce) {
+          Array.prototype.forEach.call(en.target.querySelectorAll("b"), function (b) {
+            var t = C.targets[+b.getAttribute("data-t")], s = null;
+            function step(ts) { if (s === null) s = ts; var k = Math.min(1, (ts - s) / 1500), e = 1 - Math.pow(1 - k, 3); b.textContent = fmt(t, t.n * e); if (k < 1) requestAnimationFrame(step); else b.textContent = fmt(t, t.n); }
+            requestAnimationFrame(step);
+          });
+        }
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.12 });
+    Array.prototype.forEach.call(document.querySelectorAll(".rv"), function (e) { e.classList.remove("in"); io.observe(e); });
+  }
+
+  /* pipeline */
+  var fIdx = 0, fTimer = null, fAuto = false, fVis = false;
+  function renderFlow() {
+    var F = C.flow;
+    $("fl_eb").textContent = T(F.eb); $("fl_h").innerHTML = T(F.h); $("fl_l").textContent = T(F.l); $("fl_loop").textContent = T(F.loop);
+    $("fl").innerHTML = F.nodes.map(function (n, i) {
+      return '<li><button type="button" class="fn" data-i="' + i + '"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICONS[i] + '"/></svg></span><span class="tx"><small>0' + (i + 1) + '</small><b class="ft">' + T(n.t) + "</b><span>" + T(n.s) + "</span></span></button>" + (i < F.nodes.length - 1 ? '<i class="cn" aria-hidden="true"></i>' : "") + "</li>";
+    }).join("");
+    Array.prototype.forEach.call($("fl").querySelectorAll(".fn"), function (b) { b.addEventListener("click", function () { fAuto = false; fSync(); showFlow(+b.getAttribute("data-i")); }); });
+    showFlow(fIdx); fSync();
+  }
+  function showFlow(i) {
+    fIdx = i; var n = C.flow.nodes[i];
+    Array.prototype.forEach.call($("fl").children, function (li, k) { li.classList.toggle("on", k === i); li.classList.toggle("done", k < i); });
+    Array.prototype.forEach.call($("fl").querySelectorAll(".fn"), function (b, k) { if (k === i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+    $("fdet").innerHTML = '<div class="fnum">0' + (i + 1) + " / 0" + C.flow.nodes.length + '</div><div class="body"><h3>' + T(n.t) + " · " + T(n.s) + "</h3><p>" + T(n.d) + "</p></div>";
+  }
+  function fSync() {
+    if (fTimer) { clearInterval(fTimer); fTimer = null; }
+    if (fAuto && fVis && !reduce) fTimer = setInterval(function () { showFlow((fIdx + 1) % C.flow.nodes.length); }, 3400);
+    var b = $("fl_play"); b.textContent = T(fAuto ? C.flow.pause : C.flow.play); b.setAttribute("aria-pressed", fAuto ? "true" : "false");
+  }
+  $("fl_play").addEventListener("click", function () { fAuto = !fAuto; fSync(); });
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { fVis = es[0].isIntersecting; fSync(); }, { threshold: 0.25 }).observe($("flow"));
+
+  /* scroll rail */
+  var RS = { path: null, live: null, total: 0, ys: [], ls: [], nodes: [], pts: [], top: 0 };
+
+
+  /* ===== CMS: content controlled from /admin (api/content.php), applied before first paint ===== */
+  var CMS = (window.SCL_CONTENT && typeof window.SCL_CONTENT === "object") ? window.SCL_CONTENT : {};
+  var CMSH = {};
+  (CMS.hidden || []).forEach(function (id) { CMSH[String(id)] = 1; });
+  function cmsLeaves(o, path, out) {
+    if (!o || typeof o !== "object") return out;
+    if (typeof o.en === "string" && typeof o.ar === "string") { out[path] = o; return out; }
+    if (Array.isArray(o)) o.forEach(function (v, i) { cmsLeaves(v, path + "." + i, out); });
+    else Object.keys(o).forEach(function (k) { cmsLeaves(o[k], path + "." + k, out); });
+    return out;
+  }
+  function cmsRoots() { return { C: C, S: SYS }; }
+  window.__scl_defaults = function () { var out = {}; var r = cmsRoots(); Object.keys(r).forEach(function (k) { cmsLeaves(r[k], k, out); }); var d = {}; Object.keys(out).forEach(function (p) { d[p] = { ar: out[p].ar, en: out[p].en }; }); return d; };
+  (function applyText() {
+    var t = CMS.text; if (!t) return; var leaves = {}, r = cmsRoots();
+    Object.keys(r).forEach(function (k) { cmsLeaves(r[k], k, leaves); });
+    Object.keys(t).forEach(function (p) { var lf = leaves[p], v = t[p]; if (!lf || !v) return; if (typeof v.ar === "string" && v.ar !== "") lf.ar = v.ar; if (typeof v.en === "string" && v.en !== "") lf.en = v.en; });
+  })();
+  var CMS_SETTINGS = CMS.settings || {};
+  if (CMS_SETTINGS.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(CMS_SETTINGS.email)) MAILTO = CMS_SETTINGS.email;
+  var CMS_SECTION_IDS = ["mqwrap", "manifesto", "system", "flow", "ecosystem", "roles", "faces", "day", "trust", "proof", "standard", "programmes", "faq", "tband", "final"];
+  function safeUrl(u) { u = String(u || "").trim(); if (/^(https?:\/\/|mailto:|tel:|\/|#|\.\/|[a-z0-9_\-\/]+\.(html|php|pdf)$)/i.test(u) && !/^\s*javascript:/i.test(u)) return u; return ""; }
+  function mediaSrc(m) { if (!m) return ""; if (/^[a-f0-9]{12,32}$/.test(m.src || "")) return "api/media.php?id=" + m.src; var u = String(m.src || ""); return /^https:\/\//i.test(u) ? u : ""; }
+  function ytEmbed(u) {
+    var m = String(u).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,15})/i); if (m) return "https://www.youtube-nocookie.com/embed/" + m[1];
+    m = String(u).match(/vimeo\.com\/(?:video\/)?(\d{5,12})/i); if (m) return "https://player.vimeo.com/video/" + m[1];
+    return "";
+  }
+  function paras(t) { return String(t || "").split(/\n{2,}|\r\n\r\n/).map(function (x) { return x.trim(); }).filter(Boolean).map(function (x) { return "<p>" + esc(x).replace(/\n/g, "<br>") + "</p>"; }).join(""); }
+  function renderCustom() {
+    Array.prototype.forEach.call(document.querySelectorAll("section[data-cx]"), function (sec) {
+      var b = null; (CMS.blocks || []).forEach(function (x) { if (x.id === sec.getAttribute("data-cx")) b = x; });
+      if (!b) return;
+      var L = function (o) { return o ? (o[lang] || o.ar || o.en || "") : ""; };
+      var h = '<div class="wrap"><div class="cxh rv in">' + (L(b.eyebrow) ? '<div class="eb">' + esc(L(b.eyebrow)) + "</div>" : "") + (L(b.title) ? '<h2 class="h2">' + esc(L(b.title)) + "</h2>" : "") + "</div>";
+      if (L(b.text)) h += '<div class="cxp">' + paras(L(b.text)) + "</div>";
+      var ms = (b.media || []).map(function (m) {
+        if (m.type === "image") { var s = mediaSrc(m); return s ? '<img loading="lazy" src="' + esc(s) + '" alt="' + esc(L(m.alt)) + '">' : ""; }
+        if (m.type === "video") { var v = mediaSrc(m); return v ? '<video controls playsinline preload="metadata" src="' + esc(v) + '"></video>' : ""; }
+        if (m.type === "embed") { var e = ytEmbed(m.src); return e ? '<div class="vid"><iframe src="' + esc(e) + '" title="video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>' : ""; }
+        return "";
+      }).filter(Boolean).join("");
+      if (ms) h += '<div class="cxm">' + ms + "</div>";
+      var bt = (b.buttons || []).map(function (x, i) { var u = safeUrl(x.url); return u && L(x.label) ? '<a class="btn ' + (i ? "line" : (b.theme === "dark" ? "light" : "solid")) + '" href="' + esc(u) + '"' + (/^https?:/i.test(u) ? ' target="_blank" rel="noopener"' : "") + ">" + esc(L(x.label)) + "</a>" : ""; }).join("");
+      if (bt) h += '<div class="cxb">' + bt + "</div>";
+      sec.innerHTML = h + "</div>";
+    });
+  }
+  (function buildCustom() {
+    (CMS.blocks || []).forEach(function (b) {
+      if (!b || !/^[a-f0-9]{6,16}$/.test(b.id || "") || b.hidden) return;
+      var sec = document.createElement("section");
+      sec.className = "sec cx" + (b.theme === "dark" ? " dark" : "") + (b.layout === "center" ? " center" : "");
+      sec.id = "cx-" + b.id; sec.setAttribute("data-cx", b.id);
+      var after = b.after && b.after !== "end" ? $(b.after) : null;
+      if (after && after.parentNode) after.parentNode.insertBefore(sec, after.nextSibling);
+      else { var foot = document.querySelector("footer"); foot.parentNode.insertBefore(sec, foot); }
+    });
+    CMS_SECTION_IDS.forEach(function (id) { if (CMSH[id] && $(id)) $(id).classList.add("cms-off"); });
+    if (CMSH.downloads) $("downloads").classList.add("cms-off");
+  })();
+  function applyImages() {
+    var im = CMS.images; if (!im) return;
+    Array.prototype.forEach.call(document.querySelectorAll("img"), function (el) {
+      var o = el.getAttribute("data-orig") || el.getAttribute("src"); if (!o || !im[o]) return;
+      var n = /^[a-f0-9]{12,32}$/.test(im[o]) ? "api/media.php?id=" + im[o] : (/^https:\/\//i.test(im[o]) ? im[o] : "");
+      if (n && el.getAttribute("src") !== n) { el.setAttribute("data-orig", o); el.setAttribute("src", n); }
+    });
+  }
+  function applySocial() {
+    var f = document.querySelector("footer .wrap"), old = f.querySelector(".soc"); if (old) old.remove();
+    var list = (CMS_SETTINGS.social || []).filter(function (x) { return safeUrl(x.url) && (x.label || ""); });
+    if (!list.length) return;
+    var d = document.createElement("div"); d.className = "soc";
+    d.innerHTML = list.map(function (x) { return '<a href="' + esc(safeUrl(x.url)) + '" target="_blank" rel="noopener">' + esc(x.label) + "</a>"; }).join("");
+    f.appendChild(d);
+  }
+  function applyMail() { var a = $("c_addr"); if (a) { a.textContent = MAILTO; a.setAttribute("href", "mailto:" + MAILTO); } var m = $("dl_mail"); if (m) m.setAttribute("href", "mailto:" + MAILTO); }
+  var RIDS = ["manifesto", "system", "flow", "ecosystem", "roles", "faces", "day", "trust", "proof", "standard", "programmes", "faq", "final"];
+  function buildRail() {
+    var main = $("top"), svg = $("rail"), rtl = lang === "ar", small = window.innerWidth <= 760;
+    var wr = $("manifesto").querySelector(".wrap").getBoundingClientRect(), mr = main.getBoundingClientRect();
+    var off = small ? 14 : 26, amp = small ? 4 : 11;
+    var x0 = rtl ? (wr.right - mr.left) - off : (wr.left - mr.left) + off, sg = rtl ? -1 : 1;
+    var pts = [[x0, $("manifesto").offsetTop - 40]];
+    RIDS.filter(function (id) { return !CMSH[id]; }).forEach(function (id, i) { pts.push([x0 + (i % 2 ? amp : -amp) * sg, $(id).offsetTop + (id === "final" ? 150 : 96)]); });
+    var d = "M" + pts[0][0] + " " + pts[0][1], k;
+    for (k = 1; k < pts.length; k++) { var m = (pts[k - 1][1] + pts[k][1]) / 2; d += "C" + pts[k - 1][0] + " " + m + " " + pts[k][0] + " " + m + " " + pts[k][0] + " " + pts[k][1]; }
+    var y0 = pts[0][1], y1 = pts[pts.length - 1][1];
+    svg.innerHTML = '<defs><linearGradient id="grail" gradientUnits="userSpaceOnUse" x1="0" y1="' + y0 + '" x2="0" y2="' + y1 + '"><stop offset="0" stop-color="#F46F20"/><stop offset=".5" stop-color="#3366FF"/><stop offset="1" stop-color="#4DB749"/></linearGradient></defs>' +
+      '<path class="base" d="' + d + '"/><path class="live" id="rlive" d="' + d + '"/>' +
+      pts.slice(1).map(function (p) { return '<circle class="nd" cx="' + p[0] + '" cy="' + p[1] + '" r="6"/>'; }).join("") +
+      '<circle class="halo" id="rhalo" r="16" cx="' + x0 + '" cy="' + y0 + '"/><circle class="orb" id="rorb" r="6" cx="' + x0 + '" cy="' + y0 + '"/>';
+    RS.live = $("rlive"); RS.total = RS.live.getTotalLength(); RS.pts = pts;
+    RS.ys = []; RS.ls = [];
+    for (k = 0; k <= 320; k++) { var l = RS.total * k / 320; RS.ls.push(l); RS.ys.push(RS.live.getPointAtLength(l).y); }
+    RS.nodes = svg.querySelectorAll(".nd");
+    RS.live.style.strokeDasharray = RS.total;
+    railUpdate();
+  }
+  function railUpdate() {
+    if (!RS.live) return;
+    var mr = $("top").getBoundingClientRect(), y = window.innerHeight * 0.55 - mr.top, ys = RS.ys, lo = 0, hi = ys.length - 1, L;
+    if (y <= ys[0]) L = 0; else if (y >= ys[hi]) L = RS.total; else {
+      while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (ys[mid] <= y) lo = mid; else hi = mid; }
+      L = RS.ls[lo] + (RS.ls[hi] - RS.ls[lo]) * ((y - ys[lo]) / (ys[hi] - ys[lo] || 1));
+    }
+    RS.live.style.strokeDashoffset = RS.total - L;
+    var p = RS.live.getPointAtLength(L), o = $("rorb"), h = $("rhalo");
+    o.setAttribute("cx", p.x); o.setAttribute("cy", p.y); h.setAttribute("cx", p.x); h.setAttribute("cy", p.y);
+    Array.prototype.forEach.call(RS.nodes, function (n, i) { n.classList.toggle("on", RS.pts[i + 1][1] <= y); });
+  }
+  var rbT = 0;
+  function railLater() { clearTimeout(rbT); rbT = setTimeout(buildRail, 120); }
+  if ("ResizeObserver" in window) new ResizeObserver(railLater).observe($("top")); else window.addEventListener("resize", railLater);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(railLater);
+
+  /* marquee and tagline */
+  function renderBands() {
+    var chips = MQ.map(function (m) { return '<span class="chip"><svg viewBox="0 0 24 24"><path d="' + IC[m[0]] + '"/></svg>' + T(m[1]) + "</span>"; }).join("");
+    var half = MQ.slice().reverse().map(function (m) { return '<span class="chip"><svg viewBox="0 0 24 24"><path d="' + IC[m[0]] + '"/></svg>' + T(m[1]) + "</span>"; }).join("");
+    $("mq1").innerHTML = chips + chips; $("mq2").innerHTML = half + half;
+    var tg = C.tag[lang], one = tg.map(function (w) { return "<span>" + w + "<i></i></span>"; }).join("");
+    $("ttrack").innerHTML = one + one + one + one;
+    scrollFx();
+  }
+  /* contact form */
+  var dlg = $("dlg"), lastReq = null;
+  function fieldHtml(f) {
+    var id = "f_" + f.id, lab = T(f.l), dirA = f.ltr ? ' dir="ltr"' : "", ac = f.ac ? ' autocomplete="' + f.ac + '"' : "", ctl;
+    if (f.t === "select") ctl = '<select id="' + id + '" name="' + f.id + '">' + f.o.map(function (o, i) { return '<option value="' + i + '">' + T(o[0]) + "</option>"; }).join("") + "</select>";
+    else if (f.t === "textarea") ctl = '<textarea id="' + id + '" name="' + f.id + '" rows="3"></textarea>';
+    else ctl = '<input id="' + id + '" name="' + f.id + '" type="' + (f.t || "text") + '"' + dirA + ac + (f.req ? ' aria-required="true"' : "") + ">";
+    return '<label class="fld' + (f.full ? " full" : "") + '" id="w_' + f.id + '" for="' + id + '"><span>' + lab + "</span>" + ctl + '<span class="err" id="e_' + f.id + '" role="alert"></span></label>';
+  }
+  function openForm(pi) {
+    var F = C.form;
+    $("dl_eb").textContent = T(F.eb); $("dl_t").textContent = T(F.t); $("dl_s").textContent = T(F.s); $("dl_x").textContent = "×"; $("dl_x").setAttribute("aria-label", T(F.close));
+    $("dl_f").innerHTML = '<div class="fgrid">' + F.f.map(fieldHtml).join("") + '</div><p class="contact-note">' + q("Use your professional contact details. Please leave student names and records out of your request. Questions about your data?", "استخدم بيانات التواصل المهنية. يرجى عدم إدراج أسماء الطلاب أو سجلاتهم في الطلب. للاستفسار بشأن بياناتك، راسلنا.") + ' <a href="mailto:' + MAILTO + '">' + MAILTO + '</a></p><label class="consent"><input type="checkbox" id="f_consent"><span>' + T(F.consent) + '</span></label><span class="fld"><span class="err" id="e_consent" role="alert"></span></span><div class="dl-act"><button class="btn solid" type="submit">' + T(FORM_ENDPOINT ? { en: "Send my request", ar: "أرسل طلبي" } : F.submit) + ARROW + "</button></div>";
+    if (pi !== undefined && pi !== "" && !isNaN(+pi)) $("f_prog").value = String(+pi + 1);
+    $("dl_v1").hidden = false; $("dl_v2").hidden = true;
+    if (!dlg.open) { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); }
+    setTimeout(function () { try { $("f_name").focus(); } catch (e) {} }, 60);
+  }
+  function validate() {
+    var F = C.form, ok = true, first = null;
+    F.f.forEach(function (f) {
+      var el = $("f_" + f.id), w = $("w_" + f.id), er = $("e_" + f.id), v = (el.value || "").trim(), msg = "";
+      if (f.req && !v) msg = T(F.needed);
+      else if (f.id === "email" && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg = T(F.bademail);
+      er.textContent = msg; w.setAttribute("data-bad", msg ? "1" : "0"); el.setAttribute("aria-invalid", msg ? "true" : "false");
+      if (msg) { ok = false; if (!first) first = el; }
+    });
+    var ce = $("e_consent"); if (!$("f_consent").checked) { ce.textContent = T(F.needconsent); ok = false; if (!first) first = $("f_consent"); } else ce.textContent = "";
+    if (first) first.focus();
+    return ok;
+  }
+  function collect() {
+    var F = C.form, o = {}, lb = F.labels[lang];
+    F.f.forEach(function (f) { var el = $("f_" + f.id), v = (el.value || "").trim(); if (f.t === "select") v = T(f.o[+el.value][0]); o[f.id] = v; });
+    var lines = [T(F.hello), ""];
+    ["name", "org", "role", "prog", "email", "phone", "time", "msg"].forEach(function (k) { if (o[k]) lines.push(lb[k] + ": " + o[k]); });
+    return { data: o, subject: T(F.subj) + " - " + o.org, body: lines.join("\n") };
+  }
+  function showReady(r) {
+    var F = C.form; lastReq = r;
+    $("dl_eb2").textContent = T(F.eb2); $("dl_t2").textContent = T(F.t2);
+    $("dl_s2").innerHTML = T(F.s2) + '<b dir="ltr">' + MAILTO + "</b>.";
+    $("dl_pre").textContent = r.subject + "\n\n" + r.body;
+    $("dl_mail").textContent = T(F.mail); $("dl_copy").textContent = T(F.copy); $("dl_back").textContent = T(F.back); $("dl_ok").textContent = "";
+    $("dl_mail").setAttribute("href", "mailto:" + MAILTO + "?subject=" + encodeURIComponent(r.subject) + "&body=" + encodeURIComponent(r.body));
+    $("dl_v1").hidden = true; $("dl_v2").hidden = false;
+  }
+  $("dl_f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+    var r = collect();
+    if (FORM_ENDPOINT) {
+      var btn = $("dl_f").querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = T(C.form.sending);
+      fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ subject: r.subject, to: MAILTO, fields: r.data, message: r.body }) })
+        .then(function (res) { if (!res.ok) throw new Error("http"); showReady(r); $("dl_s2").textContent = T(C.form.sent); $("dl_pre").hidden = true; $("dl_mail").hidden = true; $("dl_copy").hidden = true; $("dl_back").hidden = true; })
+        .catch(function () { showReady(r); $("dl_ok").textContent = T(C.form.failed); });
+      return;
+    }
+    ["dl_pre", "dl_mail", "dl_copy", "dl_back"].forEach(function (id) { $(id).hidden = false; });
+    showReady(r);
+  });
+  $("dl_copy").addEventListener("click", function () {
+    var txt = $("dl_pre").textContent, ok = $("dl_ok");
+    function done() { ok.textContent = T(C.form.copied) + MAILTO + "."; }
+    function fallback() { var rg = document.createRange(); rg.selectNodeContents($("dl_pre")); var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(rg); }
+    try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (e) { fallback(); }
+  });
+  $("dl_back").addEventListener("click", function () { $("dl_v2").hidden = true; $("dl_v1").hidden = false; });
+  $("dl_x").addEventListener("click", function () { dlg.close ? dlg.close() : dlg.removeAttribute("open"); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) { dlg.close(); } });
+  document.addEventListener("click", function (e) { var g = e.target.closest ? e.target.closest("[data-go]") : null; if (g) { var t = $(g.getAttribute("data-go")); if (t) t.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); return; } var b = e.target.closest ? e.target.closest("[data-open]") : null; if (b) openForm(b.getAttribute("data-open")); });
+  $("c_cp").addEventListener("click", function () {
+    var ok = $("c_ok");
+    function done() { ok.textContent = T(C.cpd); }
+    try { navigator.clipboard.writeText(MAILTO).then(done, function () {}); } catch (e) {}
+  });
+
+  /* parallax and scroll-linked motion */
+  function scrollFx() {
+    if (reduce) return;
+    var vh = window.innerHeight;
+    Array.prototype.forEach.call(document.querySelectorAll(".sk"), function (el) {
+      var r = el.parentElement.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      var d = r.top + r.height / 2 - vh / 2;
+      el.style.setProperty("--y", (-d * parseFloat(getComputedStyle(el).getPropertyValue("--sp") || 0)).toFixed(1));
+      el.style.setProperty("--rr", (d * 0.012).toFixed(2));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".fc"), function (el) {
+      var r = el.parentElement.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      el.style.setProperty("--y", ((r.top + r.height / 2 - vh / 2) * parseFloat(el.getAttribute("data-s") || 0)).toFixed(1));
+    });
+    var tb = $("tband"), br = tb.getBoundingClientRect();
+    if (br.bottom > 0 && br.top < vh) { var pr = (vh - br.top) / (vh + br.height); $("ttrack").style.setProperty("--tx", (-pr * 900 + 200).toFixed(1)); }
+    var stk = document.querySelectorAll(".stk");
+    if (window.scrollY < 900) Array.prototype.forEach.call(stk, function (el, i) { el.style.marginTop = (window.scrollY * (0.05 + i * 0.03)).toFixed(1) + "px"; });
+  }
+
+  /* language, copy, scroll */
+  $("bAr").addEventListener("click", function () { lang = "ar"; render(); applyImages(); applyMail(); railLater(); });
+  $("bEn").addEventListener("click", function () { lang = "en"; render(); applyImages(); applyMail(); railLater(); });
+  var raf = 0;
+  window.addEventListener("scroll", function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; var h = document.documentElement.scrollHeight - window.innerHeight; $("prog").style.transform = "scaleX(" + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ")"; railUpdate(); scrollFx(); $("hero").style.setProperty("--p", Math.min(1, window.scrollY / 700)); });
+  }, { passive: true });
+  var hero = $("hero");
+  hero.addEventListener("pointermove", function (e) {
+    if (reduce) return; var r = hero.getBoundingClientRect();
+    hero.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%"); hero.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+  });
+
+  render();
+  applyImages(); applySocial(); applyMail();
+  buildRail();
+  if (/[?&]quote=1\b/.test(location.search)) setTimeout(function () { openForm(); }, 400);
+})();
+</script>
+
+</body>
+</html>
